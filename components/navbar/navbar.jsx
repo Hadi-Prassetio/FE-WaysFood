@@ -11,6 +11,15 @@ export default function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
+  const switchToRegister = () => {
+    setShowLogin(false);
+    setShowRegister(true);
+  };
+  const switchToLogin = () => {
+    setShowRegister(false);
+    setShowLogin(true);
+  };
+
   const isLogin = false;
 
   return (
@@ -41,9 +50,21 @@ export default function Navbar() {
       </div>
       <Modal isVisible={showLogin} onClose={() => setShowLogin(false)}>
         <Login />
+        <p className='text-center text-pholder'>
+          Don't have an Account? klik{" "}
+          <b className='cursor-pointer' onClick={switchToRegister}>
+            Here
+          </b>
+        </p>
       </Modal>
       <Modal isVisible={showRegister} onClose={() => setShowRegister(false)}>
         <Register />
+        <p className='text-center text-pholder'>
+          Already have an Account? klik{" "}
+          <b className='cursor-pointer' onClick={switchToLogin}>
+            Here
+          </b>
+        </p>
       </Modal>
     </Fragment>
   );

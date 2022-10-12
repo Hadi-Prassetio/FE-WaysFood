@@ -1,6 +1,5 @@
-import Input from "../input";
 import Button from "../button";
-import Link from "next/link";
+import Input from "../input";
 
 export default function Login() {
   return (
@@ -12,9 +11,6 @@ export default function Login() {
         name='Login'
         className='w-full bg-btn text-white rounded py-2 my-5 hover:bg-main active:bg-orange-500'
       />
-      <p className='text-center text-pholder'>
-        Don't have an Account? klik <b className='cursor-pointer'>Here</b>
-      </p>
     </form>
   );
 }

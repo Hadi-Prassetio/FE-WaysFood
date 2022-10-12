@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { Fragment } from "react";
+import Card from "../components/card";
 import Layout from "../components/layout";
+import Partner from "../fakeData/restaurant";
 
 export default function Home() {
   const islogin = true;
@@ -34,7 +34,20 @@ export default function Home() {
         </div>
         <div className='container max-w-6xl pt-5'>
           <h1 className='text-2xl font-bold pb-3'>Popular Restaurant</h1>
-          <h1 className='text-2xl font-bold'>Restaurant Near You</h1>
+          <div className='grid md:grid-cols-4 gap-3 mb-8'>
+            {Partner?.map((item, index) => (
+              <div
+                key={index}
+                class='flex p-6 my-10 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-main/50  active:bg-main/70 cursor-pointer'>
+                <img src={item.imageIcon} alt='' />
+                <h1 class='mb-2 text-2xl font-bold tracking-tight text-gray-900 mx-3 flex items-center'>
+                  {item.name}
+                </h1>
+              </div>
+            ))}
+          </div>
+          <h1 className='md:text-2xl font-bold'>Restaurant Near You</h1>
+          <Card />
         </div>
       </Layout>
     </div>

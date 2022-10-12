@@ -1,6 +1,6 @@
-import Input from "../input";
 import Button from "../button";
-import Link from "next/link";
+import Input from "../input";
+import Select from "../select";
 
 export default function Register() {
   return (
@@ -11,14 +11,17 @@ export default function Register() {
       <Input placeholder='Fullname' type='text' />
       <Input placeholder='Gender' type='select' />
       <Input placeholder='Phone' type='number' />
-      <Input placeholder='As User' type='select' />
+      <Select>
+        <option selected className=' hidden'>
+          As User
+        </option>
+        <option value='user'> User</option>
+        <option value='partner'> Partner</option>
+      </Select>
       <Button
         name='Register'
         className='w-full bg-btn text-white rounded py-2 my-5 hover:bg-main active:bg-orange-500'
       />
-      <p className='text-center text-pholder'>
-        Already have an Account? klik <b className='cursor-pointer'>Here</b>
-      </p>
     </form>
   );
 }
