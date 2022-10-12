@@ -5,7 +5,7 @@ import Login from "../auth/login";
 import Register from "../auth/register";
 import Button from "../button";
 import Modal from "../modal";
-import Dropdown from "./dropdown";
+import Dropdown from "./menu";
 
 export default function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
@@ -20,11 +20,11 @@ export default function Navbar() {
     setShowLogin(true);
   };
 
-  const isLogin = false;
+  const isLogin = true;
 
   return (
     <Fragment>
-      <div className=' bg-main '>
+      <nav className=' bg-main sticky top-0'>
         <div className='flex justify-between items-center'>
           <div className='md:ml-10'>
             <Link href='/'>
@@ -47,7 +47,7 @@ export default function Navbar() {
             )}
           </div>
         </div>
-      </div>
+      </nav>
       <Modal isVisible={showLogin} onClose={() => setShowLogin(false)}>
         <Login />
         <p className='text-center text-pholder'>
