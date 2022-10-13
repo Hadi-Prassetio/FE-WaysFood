@@ -5,7 +5,7 @@ import Login from "../auth/login";
 import Register from "../auth/register";
 import Button from "../button";
 import Modal from "../modal";
-import Dropdown from "./menu";
+import Menu from "./menu";
 
 export default function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
@@ -32,13 +32,14 @@ export default function Navbar() {
                 src='/navicon.svg'
                 width={124}
                 height={40}
+                alt='icon'
                 className='cursor-pointer'
               />
             </Link>
           </div>
           <div className='md:mr-10 flex items-center'>
             {isLogin ? (
-              <Dropdown />
+              <Menu />
             ) : (
               <>
                 <Button name='Login' onClick={() => setShowLogin(true)} />

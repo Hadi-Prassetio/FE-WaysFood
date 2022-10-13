@@ -13,7 +13,8 @@ module.exports = {
         inpt: '#766C6C',
         txt: '#433434',
         auth: '#D2D2D2',
-        pholder: '#B1B1B1'
+        pholder: '#B1B1B1',
+        profile: '#613D2B'
        
       },
       container:{

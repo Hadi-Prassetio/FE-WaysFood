@@ -20,7 +20,7 @@ export default function Register() {
       </Select>
       <Button
         name='Register'
-        className='w-full bg-btn text-white rounded py-2 my-5 hover:bg-main active:bg-orange-500'
+        className='w-full bg-btn text-white rounded-lg py-2 my-5 hover:bg-main active:bg-orange-500'
       />
     </form>
   );

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Fragment } from "react";
 import DropDown from "./dropdown";
 import { useState } from "react";
-import Link from "next/link";
 
 export default function MenuUser() {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -17,6 +16,7 @@ export default function MenuUser() {
               src='/cart.svg'
               width={35}
               height={32.26}
+              alt='cart'
               className='cursor-pointer'
             />
           </Link>
@@ -27,6 +27,7 @@ export default function MenuUser() {
               src='/user.png'
               width={50}
               height={50}
+              alt='user'
               className='rounded-full cursor-pointer'
             />
           </button>
@@ -40,7 +41,7 @@ export default function MenuUser() {
         <Link href='/profile'>
           <div className='flex items-center mb-1 mr-10 ml-4 cursor-pointer'>
             <Image
-              src='/dropProfile.svg'
+              src='/profile.svg'
               alt='profile'
               width={33.37}
               height={39.95}
@@ -50,12 +51,7 @@ export default function MenuUser() {
         </Link>
         <hr />
         <div className='flex items-center mt-1  mr-10 ml-4 cursor-pointer'>
-          <Image
-            src='/logoutDropdown.svg'
-            alt='profile'
-            width={33.37}
-            height={39.95}
-          />
+          <Image src='/logout.svg' alt='profile' width={33.37} height={39.95} />
           <p className='ml-2'>Logout</p>
         </div>
       </DropDown>

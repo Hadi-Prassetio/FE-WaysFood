@@ -28,33 +28,27 @@ export default function Home() {
             </div>
           </div>
           <div className='flex items-center'>
-            <img src='/pizza.svg' width={300} height={300} />
+            <img src='/pizza.svg' width={300} height={300} alt='pizza' />
           </div>
         </div>
       </div>
       <div className='container max-w-6xl mt-10'>
         <h1 className='text-2xl font-bold pb-3'>Popular Restaurant</h1>
         <div className='grid md:grid-cols-4 md:gap-3 grid-cols-2 gap-1 my-8'>
-          {Partner?.map((item, index) => (
+          {Partner?.map((item) => (
             <div
               key={item.id}
-              onClick={() => router.push(`/${item.id}`)}
-              class='flex p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-main/50  active:bg-main/70 cursor-pointer'>
+              onClick={() => router.push(`/menu/${item.id}`)}
+              className='flex p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-main/50  active:bg-main/70 cursor-pointer'>
               <img src={item.imageIcon} alt='' />
-              <h1 class='mb-2 md:text-2xl font-bold tracking-tight text-gray-900 mx-3 flex items-center'>
+              <h1 className='mb-2 md:text-2xl font-bold tracking-tight text-gray-900 mx-3 flex items-center'>
                 {item.name}
               </h1>
             </div>
           ))}
         </div>
         <h1 className='md:text-2xl font-bold pb-3'>Restaurant Near You</h1>
-        <div className='grid md:grid-cols-4 md:gap-3 my-8 grid-cols-2 gap-1'>
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-        </div>
+        <div className='grid md:grid-cols-4 md:gap-3 my-8 grid-cols-2 gap-1'></div>
       </div>
     </Layout>
   );

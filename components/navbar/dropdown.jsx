@@ -11,8 +11,8 @@ export default function DropDown({ isVisible, onClose, children }) {
         className='fixed inset-0 flex justify-end'
         onClick={handleClose}
         id='outSide'>
-        <div className='mt-[75px] mr-12 h-10'>
-          <div className='relative bg-white rounded-lg shadow px-5 py-5'>
+        <div className='mt-[70px] md:mr-10 mr-1 h-10'>
+          <div className='relative bg-white rounded-lg shadow py-1'>
             {children}
           </div>
         </div>
