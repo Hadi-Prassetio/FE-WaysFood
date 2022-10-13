@@ -20,7 +20,7 @@ export default function EditProfilePartner() {
         <Input placeholder='Phone' type='number' />
         <div className='grid md:grid-cols-5 gap-4'>
           <div className='md:col-span-4'>
-            <Input />
+            <Input placeholder='Location' />
           </div>
           <div className='md:col-span-1'>
             <button className='w-full py-2 bg-btn text-white my-3 rounded-lg flex justify-center hover:bg-main/70 active:bg-main'>

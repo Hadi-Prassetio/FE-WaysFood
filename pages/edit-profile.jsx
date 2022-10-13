@@ -18,7 +18,7 @@ export default function EditProfile() {
         <Input placeholder='Phone' type='number' />
         <div className='grid md:grid-cols-5 md:gap-4 grid-cols-3 gap-2'>
           <div className='md:col-span-4 col-span-2'>
-            <Input />
+            <Input placeholder='Location' />
           </div>
           <div className='md:col-span-1'>
             <button className='w-full md:py-2 py-1 bg-btn text-white my-3 rounded-lg flex justify-center hover:bg-main/70 active:bg-main'>
