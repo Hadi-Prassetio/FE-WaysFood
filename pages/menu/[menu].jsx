@@ -4,10 +4,14 @@ import Button from "../../components/button";
 import Partners from "../../fakeData/restaurant";
 import { useRouter } from "next/router";
 import Rp from "rupiah-format";
+import { useState } from "react";
 
 export default function Menu() {
   const router = useRouter();
   const id = router.query.menu;
+
+  const [count, setCount] = useState(0);
+  console.log(count);
 
   return (
     <Layout pageTitle='Menu'>
@@ -40,6 +44,7 @@ export default function Menu() {
                   </p>
                   <div>
                     <Button
+                      onClick={() => setCount(count + 1)}
                       name='Order'
                       className='w-full bg-main text-txt rounded-xl md:py-2 py-1 my-2 hover:bg-base active:bg-gray-400'
                     />

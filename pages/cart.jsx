@@ -42,7 +42,7 @@ export default function Cart() {
               </div>
               <div className='grid justify-items-end  my-auto'>
                 <p className='text-red-600'>Rp. 5000</p>
-                <div className='mr-5 align-bottom active:bg-main/50 pt-5'>
+                <div className=' align-bottom active:bg-main/50 mt-5'>
                   <Image src='/delete.svg' width={20} height={20} alt='trash' />
                 </div>
               </div>

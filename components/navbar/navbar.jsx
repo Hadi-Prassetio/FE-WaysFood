@@ -38,8 +38,20 @@ export default function Navbar() {
             </Link>
           </div>
           <div className='md:mr-10 flex items-center'>
+            {/* <div
+              className={
+                counter === undefined
+                  ? "d-none"
+                  : counter === 0
+                  ? "d-none"
+                  : "circle"
+              }> */}
             {isLogin ? (
-              <Menu />
+              <div>
+                <div className='circle z-40'>1</div>
+
+                <Menu />
+              </div>
             ) : (
               <>
                 <Button name='Login' onClick={() => setShowLogin(true)} />

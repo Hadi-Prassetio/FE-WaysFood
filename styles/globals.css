@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.circle {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: red;
+  font-size: 0.7rem;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  margin: 10px 0px 15px 20px;
+}

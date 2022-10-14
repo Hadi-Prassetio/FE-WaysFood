@@ -1,17 +1,53 @@
+import { useState } from "react";
 import Button from "../button";
 import Input from "../input";
 import Select from "../select";
 
 export default function Register() {
+  const [form, setForm] = useState({});
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]:
+        e.target.type === "select" ? e.target.name.value : e.target.value,
+    });
+  };
+  console.log(form);
+
   return (
-    <form typeof='submit'>
+    <form>
       <h3 className='mb-4 text-5xl font-medium text-main '>Register</h3>
-      <Input placeholder='Email' type='text' />
-      <Input placeholder='Password' type='password' />
-      <Input placeholder='Fullname' type='text' />
-      <Input placeholder='Gender' type='select' />
-      <Input placeholder='Phone' type='number' />
-      <Select>
+      <Input
+        placeholder='Email'
+        type='text'
+        name='email'
+        onChange={handleChange}
+      />
+      <Input
+        placeholder='Password'
+        type='password'
+        name='password'
+        onChange={handleChange}
+      />
+      <Input
+        placeholder='Fullname'
+        type='text'
+        name='fullname'
+        onChange={handleChange}
+      />
+      <Input
+        placeholder='Gender'
+        type='text'
+        name='gender'
+        onChange={handleChange}
+      />
+      <Input
+        placeholder='Phone'
+        type='number'
+        name='phone'
+        onChange={handleChange}
+      />
+      <Select name='status' onChange={handleChange}>
         <option selected className=' hidden'>
           As User
         </option>
