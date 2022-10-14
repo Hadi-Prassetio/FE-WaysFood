@@ -2,6 +2,7 @@ import Card from "../components/card";
 import Layout from "../components/layout";
 import Partner from "../fakeData/restaurant";
 import { useRouter } from "next/router";
+import Cart from "./cart";
 
 export default function Home() {
   const router = useRouter();
@@ -48,6 +49,31 @@ export default function Home() {
           ))}
         </div>
         <h1 className='md:text-2xl font-bold pb-3'>Restaurant Near You</h1>
+        <div className='grid md:grid-cols-4 md:gap-3 grid-cols-2 gap-1 my-8'>
+          {Partner?.map((item) => (
+            <div key={item.id} onClick={() => router.push(`/menu/${item.id}`)}>
+              <Card>
+                <div>
+                  <img
+                    className='rounded-lg w-full p-3'
+                    src={item.menus[0]?.menuImage}
+                    alt='menu'
+                  />
+                </div>
+
+                <div className='px-5'>
+                  <h5 className='mb-2 md:text-xl font-bold tracking-tight text-gray-900 '>
+                    {item.menus[0]?.menuName}
+                  </h5>
+
+                  <p className='mb-3 md:font-xl text-xs text-gray-700 '>
+                    {item.location}
+                  </p>
+                </div>
+              </Card>
+            </div>
+          ))}
+        </div>
         <div className='grid md:grid-cols-4 md:gap-3 my-8 grid-cols-2 gap-1'></div>
       </div>
     </Layout>

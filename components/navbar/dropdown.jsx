@@ -6,12 +6,12 @@ export default function DropDown({ isVisible, onClose, children }) {
   };
   return (
     <>
-      {/* <button id="dropdownDefault" data-dropdown-toggle="dropdown" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Dropdown button</button> */}
       <div
         className='fixed inset-0 flex justify-end'
         onClick={handleClose}
         id='outSide'>
-        <div className='mt-[70px] md:mr-10 mr-1 h-10'>
+        <div className='mt-[50px] md:mr-10 mr-1 h-10'>
+          <div className='triangle-up relative ml-[163px] z-40'></div>
           <div className='relative bg-white rounded-lg shadow py-1'>
             {children}
           </div>

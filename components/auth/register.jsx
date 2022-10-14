@@ -8,8 +8,7 @@ export default function Register() {
   const handleChange = (e) => {
     setForm({
       ...form,
-      [e.target.name]:
-        e.target.type === "select" ? e.target.name.value : e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
   console.log(form);

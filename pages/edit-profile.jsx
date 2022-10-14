@@ -62,8 +62,8 @@ export default function EditProfile() {
             name='phone'
             onChange={handleChange}
           />
-          <div className='grid md:grid-cols-5 md:gap-4 grid-cols-3 gap-2'>
-            <div className='md:col-span-4 col-span-2'>
+          <div className='grid md:grid-cols-5 md:gap-4 gap-2'>
+            <div className='md:col-span-4 '>
               <Input placeholder='Location' />
             </div>
             <div className='md:col-span-1'>

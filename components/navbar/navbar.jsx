@@ -11,7 +11,6 @@ import Menu from "./menu";
 export default function Navbar() {
   const [state, dispatch] = useContext(CartContext);
   const counter = state.cart?.length;
-  console.log(state);
 
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -44,15 +43,19 @@ export default function Navbar() {
           </div>
           <div className='md:mr-10 flex items-center'>
             {isLogin ? (
-              <div
-                className={
-                  counter === null
-                    ? "d-none"
-                    : counter === 0
-                    ? "d-none"
-                    : "circle"
-                }>
-                <div className='circle z-40'>1</div>
+              <div>
+                <div
+                  className={
+                    counter === null
+                      ? "hidden"
+                      : counter === undefined
+                      ? "hidden"
+                      : counter === 0
+                      ? "hidden"
+                      : "circle z-40"
+                  }>
+                  {counter}
+                </div>
 
                 <Menu />
               </div>

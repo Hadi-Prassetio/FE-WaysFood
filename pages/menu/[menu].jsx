@@ -4,21 +4,29 @@ import Button from "../../components/button";
 import Partners from "../../fakeData/restaurant";
 import { useRouter } from "next/router";
 import Rp from "rupiah-format";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CartContext } from "../../context/cartContext";
 
 export default function Menu() {
+  const [state, dispatch] = useContext(CartContext);
   const router = useRouter();
   const id = router.query.menu;
 
-  const [count, setCount] = useState(0);
-  console.log(count);
+  const [cart, setCart] = useState([]);
+  const addCart = (item) => {
+    cart.push(item);
+    dispatch({
+      type: "ADD",
+      cartData: cart,
+    });
+  };
 
   return (
     <Layout pageTitle='Menu'>
       <div className='container max-w-6xl '>
         <div className=' mt-10 mb-15 flex'>
-          <img src={Partners[id]?.imageIcon} alt='' />
-          <h1 className='md:text-5xl text-2xl text-bold text-txt ml-4'>
+          <img src={Partners[id]?.imageIcon} alt='logo' />
+          <h1 className='md:text-4xl font-bold flex items-center ml-2'>
             {Partners[id]?.name}, Menus
           </h1>
         </div>
@@ -44,7 +52,7 @@ export default function Menu() {
                   </p>
                   <div>
                     <Button
-                      onClick={() => setCount(count + 1)}
+                      onClick={() => addCart(item)}
                       name='Order'
                       className='w-full bg-main text-txt rounded-xl md:py-2 py-1 my-2 hover:bg-base active:bg-gray-400'
                     />

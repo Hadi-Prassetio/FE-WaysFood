@@ -69,7 +69,7 @@ export default function EditProfilePartner() {
               <Input placeholder='Location' />
             </div>
             <div className='md:col-span-1'>
-              <button className='w-full py-2 bg-btn text-white my-3 rounded-lg flex justify-center hover:bg-main/70 active:bg-main'>
+              <button className='w-full md:py-2 py-1 bg-btn text-white md:my-3 rounded-lg flex justify-center hover:bg-main/70 active:bg-main'>
                 Select On Map
                 <img src='/map.svg' alt='map' />
               </button>
