@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useContext } from "react";
+import { CartContext } from "../../context/cartContext";
 import Login from "../auth/login";
 import Register from "../auth/register";
 import Button from "../button";
@@ -8,6 +9,10 @@ import Modal from "../modal";
 import Menu from "./menu";
 
 export default function Navbar() {
+  const [state, dispatch] = useContext(CartContext);
+  const counter = state.cart?.length;
+  console.log(state);
+
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
@@ -38,16 +43,15 @@ export default function Navbar() {
             </Link>
           </div>
           <div className='md:mr-10 flex items-center'>
-            {/* <div
-              className={
-                counter === undefined
-                  ? "d-none"
-                  : counter === 0
-                  ? "d-none"
-                  : "circle"
-              }> */}
             {isLogin ? (
-              <div>
+              <div
+                className={
+                  counter === null
+                    ? "d-none"
+                    : counter === 0
+                    ? "d-none"
+                    : "circle"
+                }>
                 <div className='circle z-40'>1</div>
 
                 <Menu />
