@@ -13,7 +13,7 @@ export default function Cart() {
   return (
     <Layout pageTitle='Cart'>
       <div className='container max-w-6xl'>
-        {state.cart?.length != 0 ? (
+        {state.cart?.length != null ? (
           <div>
             <div className='mt-10'>
               <h1 className='font-bold text-4xl mb-5'>Geprek Bensu</h1>
@@ -91,7 +91,9 @@ export default function Cart() {
             </div>
           </div>
         ) : (
-          <img src='/empty.png'></img>
+          <div className='flex my-20 justify-center'>
+            <img src='/empty.png' width={500} />
+          </div>
         )}
       </div>
     </Layout>
