@@ -11,7 +11,7 @@ export default function IncomeTransaction() {
         <div className='overflow-x-auto'>
           <table className='w-full text-sm text-left text-gray-500'>
             <thead className='text-md text-gray-700 bg-gray-100'>
-              <tr className='text-center'>
+              <tr>
                 <th scope='col' className='py-3 px-6'>
                   No
                 </th>
@@ -27,7 +27,7 @@ export default function IncomeTransaction() {
                 <th scope='col' className='py-3 px-6'>
                   Status
                 </th>
-                <th scope='col' className='py-3 px-6'>
+                <th scope='col' className='py-3 px-6 text-center'>
                   Action
                 </th>
               </tr>
@@ -61,7 +61,7 @@ export default function IncomeTransaction() {
                     <button className='bg-red-500 rounded-sm mr-2 text-white px-3 hover:bg-red-400 active:bg-red-600'>
                       Cancel
                     </button>
-                    <button className='bg-green-500 rounded-sm text-white px-3 hover:bg-green-400'>
+                    <button className='bg-green-500 rounded-sm text-white px-3 hover:bg-green-400 active:bg-green-600'>
                       Approve
                     </button>
                   </td>

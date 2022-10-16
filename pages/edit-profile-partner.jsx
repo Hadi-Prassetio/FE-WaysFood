@@ -92,7 +92,7 @@ export default function EditProfilePartner() {
           width='100%'
           height='400px'
           id='gmap_canvas'
-          src='https://maps.google.com/maps?q=Dumbways%20&t=&z=17&ie=UTF8&iwloc=&output=embed'
+          src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2662.86297470233!2d100.64546669110274!3d-0.22924426955969238!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e2ab538a387ede3%3A0x6352a6bbf00f4b57!2sBaznas%20Kota%20Payakumbuh!5e0!3m2!1sid!2sid!4v1665936080835!5m2!1sid!2sid'
           frameborder='0'
           scrolling='no'
           marginheight='0'
