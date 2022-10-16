@@ -1,10 +1,13 @@
 import { useState } from "react";
 import Input from "../components/input";
 import Layout from "../components/layout";
+import MapModal from "../components/map";
 
 export default function EditProfile() {
   const [previewName, setPreviewName] = useState("");
   const [profile, setProfile] = useState({});
+
+  const [map, setMap] = useState(false);
 
   const handleChange = (e) => {
     setProfile({
@@ -69,10 +72,12 @@ export default function EditProfile() {
               <Input placeholder='Location' />
             </div>
             <div className='md:col-span-1'>
-              <button className='w-full md:py-2 py-1 bg-btn text-white my-3 rounded-lg flex justify-center hover:bg-main/70 active:bg-main'>
-                Select On Map
+              <div
+                onClick={() => setMap(true)}
+                className='w-full md:py-2 py-1 bg-btn text-white my-3 rounded-lg flex justify-center hover:bg-main/70 active:bg-main cursor-pointer'>
+                <div className='mr-2'>Select On Map</div>
                 <img src='/map.svg' alt='map' />
-              </button>
+              </div>
             </div>
           </div>
           <div className='flex justify-end'>
@@ -82,6 +87,18 @@ export default function EditProfile() {
           </div>
         </form>
       </div>
+      <MapModal isVisible={map} onClose={() => setMap(false)}>
+        <iframe
+          width='100%'
+          height='400px'
+          id='gmap_canvas'
+          src='https://maps.google.com/maps?q=Dumbways%20&t=&z=17&ie=UTF8&iwloc=&output=embed'
+          frameborder='0'
+          scrolling='no'
+          marginheight='0'
+          marginwidth='0'
+          title='myFrame'></iframe>
+      </MapModal>
     </Layout>
   );
 }

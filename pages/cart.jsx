@@ -1,15 +1,19 @@
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Button from "../components/button";
 import Input from "../components/input";
 import Layout from "../components/layout";
 import { CartContext } from "../context/cartContext";
 import Rp from "rupiah-format";
 import { useRouter } from "next/router";
+import MapModal from "../components/map";
 
 export default function Cart() {
   const [state, dispatch] = useContext(CartContext);
   const router = useRouter();
+
+  const [map, setMap] = useState(false);
+
   return (
     <Layout pageTitle='Cart'>
       <div className='container max-w-6xl'>
@@ -25,10 +29,12 @@ export default function Cart() {
                   <Input placeholder='Location' />
                 </div>
                 <div className='col-span-1'>
-                  <button className='w-full py-2 bg-btn text-white my-3 rounded-lg flex justify-center hover:bg-main/70 active:bg-main'>
-                    Select On Map
+                  <div
+                    onClick={() => setMap(true)}
+                    className='w-full md:py-2 py-1 bg-btn text-white my-3 rounded-lg flex justify-center hover:bg-main/70 active:bg-main cursor-pointer'>
+                    <div className='mr-2'>Select On Map</div>
                     <img src='/map.svg' alt='map' />
-                  </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -95,6 +101,18 @@ export default function Cart() {
                 />
               </div>
             </div>
+            <MapModal isVisible={map} onClose={() => setMap(false)}>
+              <iframe
+                width='100%'
+                height='400px'
+                id='gmap_canvas'
+                src='https://maps.google.com/maps?q=Dumbways%20&t=&z=17&ie=UTF8&iwloc=&output=embed'
+                frameborder='0'
+                scrolling='no'
+                marginheight='0'
+                marginwidth='0'
+                title='myFrame'></iframe>
+            </MapModal>
           </div>
         ) : (
           <div className='flex my-20 justify-center'>
