@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import Card from "../components/card";
 import Layout from "../components/layout";
 import { UserContext } from "../context/userContext";

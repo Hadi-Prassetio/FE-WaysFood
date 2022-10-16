@@ -26,7 +26,7 @@ export default function Profile() {
                 </div>
                 <div className='grid content-center'>
                   <h1 className='font-bold text-profile text-2xl'>Email</h1>
-                  <p>hadiprassetio516@gmail.comm</p>
+                  <p>hadiprassetio516@gmail.com</p>
                 </div>
                 <div className='grid content-end'>
                   <h1 className='font-bold text-profile text-2xl'>Phone</h1>
@@ -44,7 +44,30 @@ export default function Profile() {
             <h1 className='font-bold md:text-4xl mb-10 font-mainFont'>
               My Transaction
             </h1>
-            <Transaction />
+            <div className='overflow-y-auto h-[16.5rem]'>
+              <Transaction>
+                <div className='grid grid-cols-2'>
+                  <div>
+                    <h1 className='font-bold text-md font-mainFont text-lg'>
+                      Geprek Bensu
+                    </h1>
+
+                    <h1 className='text-sm mb-5'>
+                      <b>Saturday, </b>12 March
+                    </h1>
+                    <h1 className='font-bold text-md text-profile'>
+                      Total : Rp. 20.000
+                    </h1>
+                  </div>
+                  <div className='grid justify-items-end'>
+                    <img src='/navicon.svg' alt='' />
+                    <h1 className='w-3/4 rounded-md bg-base text-green-600 text-center my-auto py-1'>
+                      Finished
+                    </h1>
+                  </div>
+                </div>
+              </Transaction>
+            </div>
           </div>
         </div>
       </div>
