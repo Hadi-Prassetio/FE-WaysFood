@@ -21,7 +21,7 @@ export default function EditProfilePartner() {
   return (
     <Layout pageTitle='Edit Profile Partner'>
       <div className='container max-w-6xl'>
-        <h1 className='font-bold text-3xl md:mt-20 mt-5 mb-10'>
+        <h1 className='font-bold text-3xl md:mt-20 mt-5 mb-10 font-mainFont'>
           Edit Profile Partner
         </h1>
         <form>

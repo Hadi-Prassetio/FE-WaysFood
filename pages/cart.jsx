@@ -16,7 +16,9 @@ export default function Cart() {
         {state.cart?.length != null ? (
           <div>
             <div className='mt-10'>
-              <h1 className='font-bold text-4xl mb-5'>Geprek Bensu</h1>
+              <h1 className='font-bold text-4xl mb-5 font-mainFont'>
+                Geprek Bensu
+              </h1>
               <p>Delivery Location</p>
               <div className='grid md:grid-cols-5 gap-4'>
                 <div className='col-span-4'>
@@ -39,7 +41,9 @@ export default function Cart() {
                     <div className='flex my-auto'>
                       <img src={item.menuImage} width={150} height={150} />
                       <div className='ml-5 my-auto'>
-                        <p className='font-bold'>{item.menuName}</p>
+                        <p className='font-bold font-mainFont'>
+                          {item.menuName}
+                        </p>
                         <button className='md:mr-3 md:text-xl active:bg-main/50 w-4 rounded'>
                           -
                         </button>

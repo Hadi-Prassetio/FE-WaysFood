@@ -22,6 +22,9 @@ module.exports = {
         padding: '1rem'
       }
     },
+    fontFamily:{
+      mainFont : ['Abhaya Libre']
+    }
   },
   plugins: [],
 }

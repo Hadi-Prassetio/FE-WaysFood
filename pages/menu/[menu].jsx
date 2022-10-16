@@ -26,7 +26,7 @@ export default function Menu() {
       <div className='container max-w-6xl '>
         <div className=' mt-10 mb-15 flex'>
           <img src={Partners[id]?.imageIcon} alt='logo' />
-          <h1 className='md:text-4xl font-bold flex items-center ml-2'>
+          <h1 className='md:text-4xl font-bold flex items-center ml-2 font-mainFont'>
             {Partners[id]?.name}, Menus
           </h1>
         </div>
@@ -43,7 +43,7 @@ export default function Menu() {
                 </div>
 
                 <div className='px-5'>
-                  <h5 className='mb-2 md:text-xl font-bold tracking-tight text-gray-900 '>
+                  <h5 className='mb-2 md:text-xl font-bold tracking-tight text-gray-900 font-mainFont'>
                     {item.menuName}
                   </h5>
 

@@ -22,6 +22,10 @@ class MyDocument extends Document {
   render() {
     return (
       <Html className='bg-base'>
+        <link
+          href='https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@800&display=swap'
+          rel='stylesheet'
+        />
         <Head />
         <body>
           <Main />

@@ -5,7 +5,9 @@ export default function Transaction() {
     <div className='max-w-sm bg-white rounded-lg border border-gray-200 shadow-md p-5 cursor-pointer'>
       <div className='grid grid-cols-2'>
         <div>
-          <h1 className='font-bold text-md'>Geprek Bensu</h1>
+          <h1 className='font-bold text-md font-mainFont text-lg'>
+            Geprek Bensu
+          </h1>
 
           <h1 className='text-sm mb-5'>
             <b>Saturday, </b>12 March

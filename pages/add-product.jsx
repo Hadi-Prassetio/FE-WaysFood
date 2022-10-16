@@ -23,7 +23,9 @@ export default function AddProduct() {
   return (
     <Layout pageTitle='Add Product'>
       <div className='container max-w-6xl'>
-        <h1 className='font-bold text-3xl md:mt-20 mt-5 mb-10'>Add Product</h1>
+        <h1 className='font-bold text-3xl md:mt-20 mt-5 mb-10 font-mainFont'>
+          Add Product
+        </h1>
         <form action=''>
           <div className='grid md:grid-cols-12 md:gap-4'>
             <div className='md:col-span-9'>

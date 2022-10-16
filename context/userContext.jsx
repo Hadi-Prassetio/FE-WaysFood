@@ -1,6 +1,6 @@
-import { createContext, useReduce } from "react";
+import { createContext, useReduce, useReducer } from "react";
 
-export const Usercontext = createContext();
+export const UserContext = createContext();
 
 const initial = {
   isLogin: false,
@@ -27,11 +27,11 @@ const reducer = (state, action) => {
 };
 
 export const UserContextProvider = ({ children }) => {
-  const [state, dispatch] = useReduce(initial, reducer);
+  const [auth, setAuth] = useReducer(reducer, initial);
 
   return (
-    <Usercontext.Provider value={[state, dispatch]}>
+    <UserContext.Provider value={[auth, setAuth]}>
       {children}
-    </Usercontext.Provider>
+    </UserContext.Provider>
   );
 };
