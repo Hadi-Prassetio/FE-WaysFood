@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <Layout pageTitle='Home' showLogin={showLogin} setShowLogin={setShowLogin}>
-      <div className='bg-main flex justify-center'>
+      <div className='bg-main flex justify-center py-[155px]'>
         <div className='grid md:grid-cols-3 py-5  justify-items-center max-w-4xl container grid-cols-2'>
           <div className='inline-block mt-5 md:col-span-2'>
             <h1 className='md:text-5xl text-2xl font-bold text-txt font-mainFont'>
@@ -34,7 +34,7 @@ export default function Home() {
             </div>
           </div>
           <div className='flex items-center'>
-            <img src='/pizza.svg' width={300} height={300} alt='pizza' />
+            <img src='/pizza.svg' width={400} height={400} alt='pizza' />
           </div>
         </div>
       </div>
