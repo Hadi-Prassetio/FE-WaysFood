@@ -26,5 +26,7 @@ module.exports = {
       mainFont : ['Abhaya Libre']
     }
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide')
+  ],
 }

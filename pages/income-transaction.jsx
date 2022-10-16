@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../components/layout";
-
+import Income from "../fakeData/income";
 export default function IncomeTransaction() {
   return (
     <Layout pageTitle='Income Transaction'>
@@ -32,20 +32,35 @@ export default function IncomeTransaction() {
                 </th>
               </tr>
             </thead>
-            <tbody>
-              <tr className='border-b bg-white'>
-                <td className='py-4 px-6'>1</td>
-                <th
-                  scope='row'
-                  className='py-4 px-6 font-medium text-gray-900 whitespace-nowrap'>
-                  Sugeng No Pants
-                </th>
-                <td className='py-4 px-6'>Cileungsi</td>
-                <td className='py-4 px-6'>Paket Geprek, Paket Geprek</td>
-                <td className='py-4 px-6'>Waiting Approve</td>
-                <td className='py-4 px-6'>Waiting Approve</td>
-              </tr>
-            </tbody>
+            {Income.map((item, index) => (
+              <tbody key={index}>
+                <tr className='border-b bg-white'>
+                  <td className='py-4 px-6'>{(index = +1)}</td>
+                  <td
+                    scope='row'
+                    className='py-4 px-6 font-medium whitespace-nowrap'>
+                    {item.name}
+                  </td>
+                  <td className='py-4 px-6'>{item.address}</td>
+                  <td className='py-4 px-6'>{item.products?.menu}</td>
+                  <td
+                    className={
+                      item.status === "Waiting Approve"
+                        ? "py-4 px-6 text-yellow-600"
+                        : item.status === "On The Way"
+                        ? "py-4 px-6 text-blue-600"
+                        : item.status === "Success"
+                        ? "py-4 px-6 text-green-600"
+                        : item.status === "Cancel"
+                        ? "py-4 px-6 text-red-600"
+                        : ""
+                    }>
+                    {item.status}
+                  </td>
+                  <td className='py-4 px-6'>Waiting Approve</td>
+                </tr>
+              </tbody>
+            ))}
           </table>
         </div>
       </div>
