@@ -4,7 +4,7 @@ const transaction = [
     address: "Bandung",
     products: {
       restaurant: "kfc",
-      menu: "Ayam Coca cola",
+      menu: "Ayam Coca Cola",
       price: 50000,
     },
     status: "Success",
@@ -34,6 +34,18 @@ const transaction = [
     status: "Cancel",
     date: "25 July",
     day: "Tuesday",
+  },
+  {
+    name: "juju",
+    address: "Bekasi",
+    products: {
+      restaurant: "Jco",
+      menu: "Sundae Strawberry",
+      price: 10000,
+    },
+    status: "On The Way",
+    date: "26 July",
+    day: "Friday",
   },
 ];
 

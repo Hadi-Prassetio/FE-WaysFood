@@ -48,14 +48,14 @@ export default function Register() {
       />
       <Select name='status' onChange={handleChange}>
         <option selected className=' hidden'>
-          As User
+          Role
         </option>
         <option value='user'> User</option>
         <option value='partner'> Partner</option>
       </Select>
       <Button
         name='Register'
-        className='w-full bg-btn text-white rounded-lg py-2 my-5 hover:bg-main active:bg-orange-500'
+        className='w-full bg-btn text-white rounded-lg py-2 my-5 hover:bg-main/70 active:bg-main/70'
       />
     </form>
   );

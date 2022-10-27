@@ -42,7 +42,7 @@ export default function Cart() {
             <div className='grid md:grid-cols-3 md:gap-4'>
               <div className='md:col-span-2'>
                 <div className='border-t-2 border-black mt-2 mb-2'></div>
-                <div className='overflow-y-scroll scrollbar-hide h-[25rem]'>
+                <div className='overflow-y-scroll scrollbar-hide h-[20rem]'>
                   {state.cart?.map((item) => (
                     <div key={item.id} className='grid grid-cols-2 my-1'>
                       <div className='flex my-auto'>
@@ -97,7 +97,7 @@ export default function Cart() {
                 </div>
                 <Button
                   name='order'
-                  className='w-full text-white bg-btn py-2 rounded-lg md:my-40 my-5 hover:bg-btn/80 active:bg-main/70'
+                  className='w-full text-white bg-btn py-2 rounded-lg md:my-40 my-5 hover:bg-main/80 active:bg-main/70'
                 />
               </div>
             </div>

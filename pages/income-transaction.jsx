@@ -42,7 +42,9 @@ export default function IncomeTransaction() {
                     {item.name}
                   </td>
                   <td className='py-4 px-6'>{item.address}</td>
-                  <td className='py-4 px-6'>{item.products?.menu}</td>
+                  <td className='py-4 px-6'>
+                    {item.products?.menu.slice(0, 15)}...
+                  </td>
                   <td
                     className={
                       item.status === "Waiting Approve"
@@ -58,12 +60,24 @@ export default function IncomeTransaction() {
                     {item.status}
                   </td>
                   <td className='py-4 px-6 flex justify-center'>
-                    <button className='bg-red-500 rounded-sm mr-2 text-white px-3 hover:bg-red-400 active:bg-red-600'>
-                      Cancel
-                    </button>
-                    <button className='bg-green-500 rounded-sm text-white px-3 hover:bg-green-400 active:bg-green-600'>
-                      Approve
-                    </button>
+                    {item.status === "Waiting Approve" ? (
+                      <>
+                        <button className='bg-red-500 rounded-sm mr-2 text-white px-3 hover:bg-red-400 active:bg-red-600'>
+                          Cancel
+                        </button>
+                        <button className='bg-green-500 rounded-sm text-white px-3 hover:bg-green-400 active:bg-green-600'>
+                          Approve
+                        </button>
+                      </>
+                    ) : item.status === "On The Way" ? (
+                      <img src='/approve.svg' alt='success' />
+                    ) : item.status === "Success" ? (
+                      <img src='/approve.svg' alt='success' />
+                    ) : item.status === "Cancel" ? (
+                      <img src='/cancel.svg' alt='cancel' />
+                    ) : (
+                      ""
+                    )}
                   </td>
                 </tr>
               </tbody>

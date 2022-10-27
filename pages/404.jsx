@@ -12,11 +12,13 @@ export default function Custom404() {
 
   return (
     <div className='mx-auto text-center '>
-      <h1 className='text-8xl font-bold text-txt'>Ooops....</h1>
-      <br />
-      <h1 className='text-3xl font-bold text-txt'>
-        Halaman yang anda cari tidak ditemukan!
-      </h1>
+      <div className=' mt-[15rem]'>
+        <h1 className='text-8xl font-bold text-txt'>Ooops....</h1>
+        <br />
+        <h1 className='text-3xl font-bold text-txt'>
+          Halaman yang anda cari tidak ditemukan!
+        </h1>
+      </div>
     </div>
   );
 }

@@ -14,32 +14,33 @@ export default function Home() {
 
   return (
     <Layout pageTitle='Home' showLogin={showLogin} setShowLogin={setShowLogin}>
-      <div className='bg-main flex justify-center py-[155px]'>
-        <div className='grid md:grid-cols-3 py-5  justify-items-center max-w-4xl container grid-cols-2'>
-          <div className='inline-block mt-5 md:col-span-2'>
-            <h1 className='md:text-5xl text-2xl font-bold text-txt font-mainFont'>
-              Are you Hungry?
-            </h1>
-            <h1 className='md:text-5xl text-2xl font-bold text-txt  font-mainFont'>
-              Express Home Delivery
-            </h1>
-            <div className='md:grid grid-cols-3 gap-5 md:mt-10 '>
-              <div className='border-t-4 border-txt mt-2'></div>
-              <p className='md:text-sm text-xs col-span-2 align-text-top font-mainFont'>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Perspiciatis delectus eaque rem, mollitia maiores, quas
-                provident minima perferendis a distinctio quis excepturi error
-                corporis veritatis vel in dolore corrupti dignissimos.
-              </p>
+      <div className='flex justify-center items-center bg-main mb-16'>
+        <div className='grid md:grid-cols-5 content-center px-1 md:py-[122px]'>
+          <div className='py-20 col-span-3'>
+            <div className='md:ml-6'>
+              <h1 className='text-txt text-5xl font-semibold mb-2 font-mainFont'>
+                Are You Hungry?
+              </h1>
+              <h1 className='text-txt text-5xl font-semibold mb-7 font-mainFont'>
+                Express Home Delivery
+              </h1>
+              <div className='grid md:grid-cols-3'>
+                <div className='border-t-4 border-txt mr-2 ml-1 md:col-span-1'></div>
+                <p className='px-3 md:col-span-2 text-sm w-80'>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Expedita error beatae adipisci aliquid repellat impedit
+                  provident nisi quod, voluptates numquam.
+                </p>
+              </div>
             </div>
           </div>
-          <div className='flex items-center'>
-            <img src='/pizza.svg' width={400} height={400} alt='pizza' />
+          <div className='col-span-2'>
+            <img src='/pizza.svg' alt='pizza' width={393} height={408} />
           </div>
         </div>
       </div>
-      <div className='container max-w-6xl mt-10'>
-        <h1 className='text-2xl font-bold pb-3  font-mainFont'>
+      <div className='container max-w-6xl'>
+        <h1 className='text-2xl font-bold pb-3 font-mainFont'>
           Popular Restaurant
         </h1>
         <div className='grid md:grid-cols-4 md:gap-3 grid-cols-2 gap-1 my-8'>
@@ -61,7 +62,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <h1 className='md:text-2xl font-bold pb-3 font-mainFont'>
+        <h1 className='text-2xl font-bold pb-3 font-mainFont'>
           Restaurant Near You
         </h1>
         <div className='grid md:grid-cols-4 md:gap-3 grid-cols-2 gap-1 my-8'>

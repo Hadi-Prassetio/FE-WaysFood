@@ -62,7 +62,7 @@ export default function Login() {
       <Button
         name='Login'
         type='submit'
-        className='w-full bg-btn text-white rounded-lg py-2 my-5 hover:bg-main active:bg-orange-500'
+        className='w-full bg-btn text-white rounded-lg py-2 my-5 hover:bg-main/70 active:bg-main'
       />
     </form>
   );
