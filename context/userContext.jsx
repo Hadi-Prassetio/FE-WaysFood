@@ -11,12 +11,16 @@ const reducer = (state, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case "USER_SUCCESS":
     case "LOGIN":
+      localStorage.setItem("token", payload.token);
       return {
         isLogin: true,
         user: payload,
       };
+    case "AUTH_ERROR":
     case "LOGOUT":
+      localStorage.removeItem("token");
       return {
         isLogin: false,
         user: {},
@@ -31,7 +35,7 @@ export const UserContextProvider = ({ children }) => {
 
   return (
     <UserContext.Provider value={[auth, setAuth]}>
-      {children}
+      <div>{children}</div>
     </UserContext.Provider>
   );
 };

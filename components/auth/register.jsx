@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Button from "../button";
 import Input from "../input";
-import Select from "../select";
+import { useMutation } from "react-query";
+import { API } from "../../pages/api/api";
 
 export default function Register() {
   const [form, setForm] = useState({});
@@ -11,10 +12,28 @@ export default function Register() {
       [e.target.name]: e.target.value,
     });
   };
-  console.log(form);
+  // console.log(form);
+
+  const handleSubmit = useMutation(async (e) => {
+    try {
+      e.preventDefault();
+      const config = {
+        Headers: {
+          "Content-type": "aplication/json",
+        },
+      };
+      const body = JSON.stringify(form);
+
+      const response = await API.post("/register", body, config);
+      console.log(response);
+      console.log(body);
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
   return (
-    <form>
+    <form onSubmit={(e) => handleSubmit.mutate(e)}>
       <h3 className='mb-4 text-5xl font-medium text-main '>Register</h3>
       <Input
         placeholder='Email'
@@ -46,15 +65,19 @@ export default function Register() {
         name='phone'
         onChange={handleChange}
       />
-      <Select name='status' onChange={handleChange}>
+      <select
+        className='w-full py-2 my-3 pl-1 bg-auth bg-opacity-25 rounded-md border-2 border-gray-400/70 focus:outline-none focus:ring focus:ring-main'
+        name='role'
+        onChange={handleChange}>
         <option selected className=' hidden'>
           Role
         </option>
-        <option value='user'> User</option>
+        <option value='customer'> Customer</option>
         <option value='partner'> Partner</option>
-      </Select>
+      </select>
       <Button
         name='Register'
+        type='submit'
         className='w-full bg-btn text-white rounded-lg py-2 my-5 hover:bg-main/70 active:bg-main/70'
       />
     </form>

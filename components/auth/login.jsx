@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useState, useContext } from "react";
+import { useMutation } from "react-query";
 import { UserContext } from "../../context/userContext";
 import Button from "../button";
 import Input from "../input";
@@ -17,32 +18,42 @@ export default function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
 
-    const email = user.email;
-    const password = user.password;
+  //   const email = user.email;
+  //   const password = user.password;
 
-    let status;
-    if (email === "admin@mail.com") {
-      status = "partner";
-      router.push("/income-transaction");
-    } else {
-      status = "user";
-      router.push("/");
-    }
+  //   let status;
+  //   if (email === "admin@mail.com") {
+  //     status = "partner";
+  //     router.push("/income-transaction");
+  //   } else {
+  //     status = "user";
+  //     router.push("/");
+  //   }
 
-    const data = {
-      email,
-      password,
-      status,
-    };
+  //   const data = {
+  //     email,
+  //     password,
+  //     status,
+  //   };
 
-    setAuth({
-      type: "LOGIN",
-      payload: data,
-    });
-  };
+  //   setAuth({
+  //     type: "LOGIN",
+  //     payload: data,
+  //   });
+  // };
+  const handleSubmit = useMutation(async (e) => {
+    try {
+      const config = {
+        method: "POST",
+        Headers: {
+          "Content-type": "aplication/json",
+        },
+      };
+    } catch (error) {}
+  });
 
   return (
     <form onSubmit={handleSubmit}>
