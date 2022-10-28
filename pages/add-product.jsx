@@ -1,6 +1,8 @@
 import Layout from "../components/layout";
 import Input from "../components/input";
 import { useState } from "react";
+import { useMutation } from "react-query";
+import { API } from "./api/api";
 
 export default function AddProduct() {
   const [product, setProduct] = useState({});
@@ -19,6 +21,21 @@ export default function AddProduct() {
   };
 
   console.log(product);
+  const handleSubmit = useMutation(async (e) => {
+    try {
+      e.preventDefault();
+
+      const formData = new FormData();
+      formData.set("title", product.title);
+      formData.set("price", product.price);
+      formData.set("image", product.image[0], product.image[0].name);
+
+      const response = await API.post("/product", formData);
+      console.log(response);
+    } catch (error) {
+      console.log("errrror", error);
+    }
+  });
 
   return (
     <Layout pageTitle='Add Product'>
@@ -26,7 +43,7 @@ export default function AddProduct() {
         <h1 className='font-bold text-3xl md:mt-20 mt-5 mb-10 font-mainFont'>
           Add Product
         </h1>
-        <form action=''>
+        <form onSubmit={(e) => handleSubmit.mutate(e)}>
           <div className='grid md:grid-cols-12 md:gap-4'>
             <div className='md:col-span-9'>
               <Input
@@ -41,7 +58,7 @@ export default function AddProduct() {
                 type='file'
                 id='image'
                 hidden
-                name='productImg'
+                name='image'
                 onChange={handleChange}
               />
               <label
@@ -61,7 +78,9 @@ export default function AddProduct() {
             onChange={handleChange}
           />
           <div className='flex justify-end'>
-            <button className='md:w-1/5 w-20 py-1 bg-btn text-white my-3 rounded-lg text-center hover:bg-main/70 active:bg-main'>
+            <button
+              type='submit'
+              className='md:w-1/5 w-20 py-1 bg-btn text-white my-3 rounded-lg text-center hover:bg-main/70 active:bg-main'>
               Save
             </button>
           </div>

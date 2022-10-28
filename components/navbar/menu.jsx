@@ -18,13 +18,13 @@ export default function MenuUser() {
     router.push("/");
   };
 
-  const status = auth.user.status;
-  console.log(auth);
+  const role = auth.user.role;
+  // console.log(auth);
 
   return (
     <Fragment>
       <div className='flex items-center'>
-        <div className={status === "partner" ? "hidden" : "cursor-pointer "}>
+        <div className={role === "partner" ? "hidden" : "cursor-pointer "}>
           <Link href='/cart'>
             <Image src='/cart.svg' width={35} height={32.26} alt='cart' />
           </Link>
@@ -45,7 +45,7 @@ export default function MenuUser() {
         <Link href='/profile'>
           <div
             className={
-              status === "partner"
+              role === "partner"
                 ? "hidden"
                 : "flex items-center mb-1 mr-10 ml-4 cursor-pointer"
             }>
@@ -61,7 +61,7 @@ export default function MenuUser() {
         <Link href='/profile-partner'>
           <div
             className={
-              status === "user"
+              role === "customer"
                 ? "hidden"
                 : "flex items-center mb-1 mr-10 ml-4 cursor-pointer"
             }>
@@ -77,7 +77,7 @@ export default function MenuUser() {
         <Link href='/add-product'>
           <div
             className={
-              status === "user"
+              role === "customer"
                 ? "hidden"
                 : "flex items-center mb-1 mr-10 ml-4 cursor-pointer"
             }>

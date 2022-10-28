@@ -4,7 +4,7 @@ import Income from "../fakeData/income";
 export default function IncomeTransaction() {
   return (
     <Layout pageTitle='Income Transaction'>
-      <div className='px-40 py-10'>
+      <div className='md:px-40 md:py-10'>
         <p className='font-bold text-4xl mb-10 font-header'>
           Income Transaction
         </p>

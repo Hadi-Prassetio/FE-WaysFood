@@ -15,6 +15,7 @@ export default function Navbar({ showLogin, setShowLogin }) {
 
   const [auth, setAuth] = useContext(UserContext);
   const isLogin = auth.isLogin;
+  // console.log(isLogin);
 
   // const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -35,9 +36,7 @@ export default function Navbar({ showLogin, setShowLogin }) {
         <div className='flex justify-between items-center'>
           <div className='md:ml-10'>
             <Link
-              href={
-                auth.user.status === "partner" ? "/income-transaction" : "/"
-              }>
+              href={auth.user.role === "partner" ? "/income-transaction" : "/"}>
               <Image
                 src='/navicon.svg'
                 width={124}
@@ -52,7 +51,7 @@ export default function Navbar({ showLogin, setShowLogin }) {
               <div>
                 <div
                   className={
-                    auth.user.status === "partner"
+                    auth.user.role === "partner"
                       ? "hidden"
                       : counter === null
                       ? "hidden"

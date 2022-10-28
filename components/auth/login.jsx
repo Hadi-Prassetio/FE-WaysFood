@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState, useContext } from "react";
 import { useMutation } from "react-query";
 import { UserContext } from "../../context/userContext";
+import { API } from "../../pages/api/api";
 import Button from "../button";
 import Input from "../input";
 
@@ -46,28 +47,49 @@ export default function Login() {
   // };
   const handleSubmit = useMutation(async (e) => {
     try {
+      e.preventDefault();
       const config = {
         method: "POST",
         Headers: {
-          "Content-type": "aplication/json",
+          "Content-Type": "aplication/json",
         },
       };
-    } catch (error) {}
+      const body = JSON.stringify(user);
+
+      const response = await API.post("/login", body, config);
+      console.log("data", response.data);
+
+      if (response?.status === 200) {
+        setAuth({
+          type: "LOGIN",
+          payload: response.data.data,
+        });
+        if (response?.data.data.role === "partner") {
+          router.push("/income-transaction");
+        } else {
+          router.push("/");
+        }
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
   });
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={(e) => handleSubmit.mutate(e)}>
       <h3 className='mb-4 text-5xl font-medium text-main '>Login</h3>
       <Input
         placeholder='Email'
         type='text'
         name='email'
+        value={user.email}
         onChange={handleChange}
       />
       <Input
         placeholder='Password'
         type='password'
         name='password'
+        value={user.password}
         onChange={handleChange}
       />
       <Button

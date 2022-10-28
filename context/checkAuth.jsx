@@ -11,15 +11,6 @@ export default function CheckAuth({ children }) {
     if (localStorage.token) {
       SetAuthToken(localStorage.token);
     }
-    if (!auth.isLogin) {
-      router.push("/");
-    } else {
-      if (auth.role === "partner") {
-        router.push("/income-transaction");
-      } else if (auth.role === "customer") {
-        router.push("/");
-      }
-    }
   }, [auth]);
 
   const checkUser = async () => {
@@ -32,12 +23,15 @@ export default function CheckAuth({ children }) {
       }
       let payload = response.data.data;
       payload.token = localStorage.token;
+      console.log(response);
       setAuth({
         type: "USER_SUCCESS",
         payload,
       });
     } catch (error) {
-      console.log(error);
+      if (error.response.data.code === 400) {
+        router.push("/");
+      }
     }
   };
 

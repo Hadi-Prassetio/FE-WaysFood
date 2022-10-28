@@ -16,7 +16,7 @@ export default function Home() {
     <Layout pageTitle='Home' showLogin={showLogin} setShowLogin={setShowLogin}>
       <div className='flex justify-center items-center bg-main mb-16'>
         <div className='grid md:grid-cols-5 content-center px-1 md:py-[122px]'>
-          <div className='py-20 col-span-3'>
+          <div className='py-20 md:col-span-3'>
             <div className='md:ml-6'>
               <h1 className='text-txt text-5xl font-semibold mb-2 font-mainFont'>
                 Are You Hungry?
@@ -34,7 +34,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className='col-span-2'>
+          <div className='md:col-span-2 flex justify-center'>
             <img src='/pizza.svg' alt='pizza' width={393} height={408} />
           </div>
         </div>
