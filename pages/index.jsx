@@ -4,13 +4,28 @@ import Card from "../components/card";
 import Layout from "../components/layout";
 import { UserContext } from "../context/userContext";
 import Partner from "../fakeData/restaurant";
+import { API } from "./api/api";
 
 export default function Home() {
   const router = useRouter();
   const [auth, setAuth] = useContext(UserContext);
+  const [shop, setShop] = useState([]);
+  // console.log(shop);
 
   const [showLogin, setShowLogin] = useState(false);
   const loginFirst = () => setShowLogin(true);
+
+  useEffect(() => {
+    const getShops = async (e) => {
+      try {
+        const response = await API.get("/partners");
+        setShop(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getShops();
+  }, [setShop]);
 
   return (
     <Layout pageTitle='Home' showLogin={showLogin} setShowLogin={setShowLogin}>
@@ -44,7 +59,7 @@ export default function Home() {
           Popular Restaurant
         </h1>
         <div className='grid md:grid-cols-4 md:gap-3 grid-cols-2 gap-1 my-8'>
-          {Partner?.map((item) => (
+          {shop?.map((item) => (
             <div
               key={item.id}
               onClick={
@@ -55,9 +70,9 @@ export default function Home() {
               className='flex p-6 max-w-sm bg-white rounded-lg border
               border-gray-200 shadow-md hover:bg-main/50 active:bg-main/70
               cursor-pointer'>
-              <img src={item.imageIcon} alt='' />
+              <img src={item.image} alt='shop' width={70} />
               <h1 className='mb-2 md:text-2xl font-bold tracking-tight text-gray-900 mx-3 flex items-center font-mainFont'>
-                {item.name}
+                {item.fullname}
               </h1>
             </div>
           ))}

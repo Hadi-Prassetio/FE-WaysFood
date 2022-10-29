@@ -4,9 +4,24 @@ import { useRouter } from "next/router";
 import Transaction from "../components/transaction";
 import Income from "../fakeData/income";
 import Rp from "rupiah-format";
+import { API } from "./api/api";
+import { useState, useEffect } from "react";
 
 export default function ProfilePartner() {
+  const [profile, setProfile] = useState({});
   const router = useRouter();
+
+  useEffect(() => {
+    const getProfile = async (e) => {
+      try {
+        const response = await API.get("/check-auth");
+        setProfile(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProfile();
+  }, [setProfile]);
 
   return (
     <Layout>
@@ -18,20 +33,27 @@ export default function ProfilePartner() {
             </h1>
             <div className='grid grid-cols-3 gap-4'>
               <div>
-                <img src='/user.png' alt='user' />
+                <img
+                  src={
+                    profile?.image == ""
+                      ? "/user.png"
+                      : "http://localhost:5000/uploads/" + profile.image
+                  }
+                  alt='user'
+                />
               </div>
               <div className='grid col-span-2'>
                 <div className='grid content-center'>
                   <h1 className='font-bold text-profile text-2xl'>Fullname</h1>
-                  <p>Hadi Prassetio</p>
+                  <p>{profile.fullname}</p>
                 </div>
                 <div className='grid content-center'>
                   <h1 className='font-bold text-profile text-2xl'>Email</h1>
-                  <p>hadiprassetio516@gmail.com</p>
+                  <p>{profile.email}</p>
                 </div>
                 <div className='grid content-end'>
                   <h1 className='font-bold text-profile text-2xl'>Phone</h1>
-                  <p>0895609135718</p>
+                  <p>{profile.phone}</p>
                 </div>
               </div>
               <Button

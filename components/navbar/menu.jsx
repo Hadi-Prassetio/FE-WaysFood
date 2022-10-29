@@ -1,15 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { UserContext } from "../../context/userContext";
 import DropDown from "./dropdown";
 import { useContext } from "react";
 import { useRouter } from "next/router";
+import { API } from "../../pages/api/api";
 
 export default function MenuUser() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [auth, setAuth] = useContext(UserContext);
+  const [profile, setProfile] = useState({});
   const router = useRouter();
+
+  useEffect(() => {
+    const getProfile = async (e) => {
+      try {
+        const response = await API.get("/check-auth");
+        setProfile(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProfile();
+  }, [setProfile]);
 
   const logOut = () => {
     setAuth({
@@ -31,13 +45,18 @@ export default function MenuUser() {
         </div>
         <div className='ml-5'>
           <button onClick={() => setShowDropdown(true)}>
-            <img
-              src='/user.png'
-              width={50}
-              height={50}
-              alt='user'
-              className='rounded-full cursor-pointer z-0'
-            />
+            <div className=''>
+              <img
+                src={
+                  profile?.image == ""
+                    ? "/user.png"
+                    : "http://localhost:5000/uploads/" + profile?.image
+                }
+                width={50}
+                alt='user'
+                className='rounded-full'
+              />
+            </div>
           </button>
         </div>
       </div>

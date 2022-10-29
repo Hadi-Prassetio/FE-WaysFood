@@ -1,17 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../components/input";
 import Layout from "../components/layout";
 import MapModal from "../components/map";
+import { API } from "./api/api";
+import { useMutation } from "react-query";
+import { useRouter } from "next/router";
 
 export default function EditProfile() {
+  const [data, setData] = useState([]);
+  const [profile, setProfile] = useState({
+    fullname: "",
+    image: "",
+    email: "",
+    phone: "",
+    location: "",
+  });
+
+  const router = useRouter();
+
   const [previewName, setPreviewName] = useState("");
-  const [profile, setProfile] = useState({});
 
   const [map, setMap] = useState(false);
 
   const handleChange = (e) => {
     setProfile({
       ...profile,
+
       [e.target.name]:
         e.target.type === "file" ? e.target.files : e.target.value,
     });
@@ -19,7 +33,49 @@ export default function EditProfile() {
       setPreviewName(e.target.files[0].name);
     }
   };
-  console.log(profile);
+
+  useEffect(() => {
+    const getData = async (e) => {
+      try {
+        const response = await API.get(`/check-auth`);
+
+        setProfile({
+          fullname: response.data.data.fullname,
+          email: response.data.data.email,
+          phone: response.data.data.phone,
+          image: response.data.data.image,
+          location: response.data.data.location,
+        });
+        // console.log(response);
+      } catch (error) {
+        console.log("errrorr", error);
+      }
+    };
+    getData();
+  }, [setData]);
+
+  const handleSubmit = useMutation(async (e) => {
+    try {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.set("fullname", profile.fullname);
+      formData.set("email", profile.email);
+      formData.set("phone", profile.phone);
+      // formData.set("image", profile.image[0], profile.image[0].name);
+      formData.set("location", profile.location);
+      console.log("imageeee", profile.image);
+      if (previewName) {
+        formData.set("image", profile?.image[0], profile?.image[0]?.name);
+      }
+
+      const response = await API.patch("/user", formData);
+      // console.log(response);
+      router.push("/profile");
+    } catch (error) {
+      console.log(error);
+      alert("Failed Update Profile");
+    }
+  });
 
   return (
     <Layout pageTitle='Edit Profile'>
@@ -27,13 +83,14 @@ export default function EditProfile() {
         <h1 className='font-bold text-3xl md:mt-20 mt-5 mb-10 font-mainFont'>
           Edit Profile
         </h1>
-        <form>
+        <form onSubmit={(e) => handleSubmit.mutate(e)}>
           <div className='grid md:grid-cols-12 md:gap-4'>
             <div className='md:col-span-9'>
               <Input
                 placeholder='Full name'
                 type='text'
                 name='fullname'
+                value={profile.fullname}
                 onChange={handleChange}
               />
             </div>
@@ -42,13 +99,18 @@ export default function EditProfile() {
                 type='file'
                 id='image'
                 hidden
-                name='profileImg'
+                name='image'
                 onChange={handleChange}
               />
               <label
                 htmlFor='image'
                 className='w-full p-2 grid grid-cols-2 bg-auth bg-opacity-25 rounded-lg border-2 border-gray-400/70'>
-                <div>{previewName === "" ? "Attach Image" : previewName}</div>
+                <div>
+                  {previewName === ""
+                    ? "Attach Image"
+                    : previewName.slice(0, 10)}
+                  ...
+                </div>
                 <div className='grid justify-end'>
                   <img src='/pin.svg' width={15} />
                 </div>
@@ -59,17 +121,24 @@ export default function EditProfile() {
             placeholder='Email'
             type='email'
             name='email'
+            value={profile.email}
             onChange={handleChange}
           />
           <Input
             placeholder='Phone'
             type='number'
             name='phone'
+            value={profile.phone}
             onChange={handleChange}
           />
           <div className='grid md:grid-cols-5 md:gap-4 gap-2'>
             <div className='md:col-span-4 '>
-              <Input placeholder='Location' />
+              <Input
+                placeholder='Location'
+                name='location'
+                value={profile.location}
+                onChange={handleChange}
+              />
             </div>
             <div className='md:col-span-1'>
               <div
@@ -81,7 +150,9 @@ export default function EditProfile() {
             </div>
           </div>
           <div className='flex justify-end'>
-            <button className='md:w-1/5 w-20 py-1 bg-btn text-white my-3 rounded-lg text-center hover:bg-main/70 active:bg-main'>
+            <button
+              type='submit'
+              className='md:w-1/5 w-20 py-1 bg-btn text-white my-3 rounded-lg text-center hover:bg-main/70 active:bg-main'>
               Save
             </button>
           </div>

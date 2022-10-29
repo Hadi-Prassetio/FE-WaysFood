@@ -72,6 +72,7 @@ export default function Login() {
       }
     } catch (error) {
       console.log("error", error);
+      alert("Login Failed");
     }
   });
 
@@ -80,7 +81,7 @@ export default function Login() {
       <h3 className='mb-4 text-5xl font-medium text-main '>Login</h3>
       <Input
         placeholder='Email'
-        type='text'
+        type='email'
         name='email'
         value={user.email}
         onChange={handleChange}

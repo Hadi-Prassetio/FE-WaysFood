@@ -32,8 +32,10 @@ export default function AddProduct() {
 
       const response = await API.post("/product", formData);
       console.log(response);
+      alert("Product Added");
     } catch (error) {
       console.log("errrror", error);
+      alert("Failed Add Product");
     }
   });
 

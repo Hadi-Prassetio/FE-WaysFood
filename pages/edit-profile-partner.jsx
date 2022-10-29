@@ -15,7 +15,6 @@ export default function EditProfilePartner() {
     phone: "",
     location: "",
   });
-  console.log(profile.image);
 
   const router = useRouter();
 
@@ -47,7 +46,7 @@ export default function EditProfilePartner() {
           image: response.data.data.image,
           location: response.data.data.location,
         });
-        console.log(response);
+        // console.log(response);
       } catch (error) {
         console.log("errrorr", error);
       }
@@ -70,10 +69,11 @@ export default function EditProfilePartner() {
       }
 
       const response = await API.patch("/user", formData);
-      console.log(response);
+      // console.log(response);
       router.push("/profile-partner");
     } catch (error) {
       console.log(error);
+      alert("Failed Update Profile");
     }
   });
 
@@ -106,7 +106,12 @@ export default function EditProfilePartner() {
               <label
                 htmlFor='image'
                 className='w-full p-2 grid grid-cols-2 bg-auth bg-opacity-25 rounded-lg border-2 border-gray-400/70'>
-                <div>{previewName === "" ? "Attach Image" : previewName}</div>
+                <div>
+                  {previewName === ""
+                    ? "Attach Image"
+                    : previewName.slice(0, 10)}
+                  ...
+                </div>
                 <div className='grid justify-end'>
                   <img src='/pin.svg' width={15} />
                 </div>

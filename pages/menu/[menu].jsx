@@ -4,47 +4,67 @@ import Button from "../../components/button";
 import Partners from "../../fakeData/restaurant";
 import { useRouter } from "next/router";
 import Rp from "rupiah-format";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CartContext } from "../../context/cartContext";
+import { API } from "../api/api";
 
 export default function Menu() {
   const [state, dispatch] = useContext(CartContext);
   const router = useRouter();
   const id = router.query.menu;
 
+  const [detail, setDetail] = useState([]);
+
   const [cart, setCart] = useState([]);
-  const addCart = (item) => {
-    cart.push(item);
-    dispatch({
-      type: "ADD",
-      cartData: cart,
-    });
-  };
+
+  useEffect(() => {
+    const getDetail = async (e) => {
+      try {
+        const response = await API.get(`/user/${id}`);
+        setDetail(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getDetail();
+  }, [setDetail]);
+
+  useEffect(() => {
+    const getCart = async (e) => {
+      try {
+        const response = await API.get("/cart-status");
+        setCart(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getCart();
+  }, [setCart]);
 
   return (
     <Layout pageTitle='Menu'>
       <div className='container max-w-6xl '>
         <div className=' mt-10 mb-15 flex'>
-          <img src={Partners[id]?.imageIcon} alt='logo' />
+          <img src={detail?.image} alt='logo' width={70} />
           <h1 className='md:text-4xl font-bold flex items-center ml-2 font-mainFont'>
-            {Partners[id]?.name}, Menus
+            {detail?.fullname}, Menus
           </h1>
         </div>
         <div className='grid md:grid-cols-4 md:gap-4 grid-cols-2 gap-1 my-10'>
-          {Partners[id]?.menus?.map((item, index) => (
+          {detail?.products?.map((item, index) => (
             <div key={index}>
               <Card>
                 <div>
                   <img
                     className='rounded-lg w-full p-3'
-                    src={item.menuImage}
+                    src={`http://localhost:5000/uploads/${item.image}`}
                     alt='menu'
                   />
                 </div>
 
                 <div className='px-5'>
                   <h5 className='mb-2 md:text-xl font-bold tracking-tight text-gray-900 font-mainFont'>
-                    {item.menuName}
+                    {item.title}
                   </h5>
 
                   <p className='mb-3 md:font-normal text-xs text-gray-700 '>

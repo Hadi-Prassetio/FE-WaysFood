@@ -25,10 +25,12 @@ export default function Register() {
       const body = JSON.stringify(form);
 
       const response = await API.post("/register", body, config);
-      console.log(response);
-      console.log(body);
+      // console.log(response);
+      // console.log(body);
+      alert("Success Register");
     } catch (error) {
       console.log(error);
+      alert("Register Failed");
     }
   });
 
@@ -37,7 +39,7 @@ export default function Register() {
       <h3 className='mb-4 text-5xl font-medium text-main '>Register</h3>
       <Input
         placeholder='Email'
-        type='text'
+        type='email'
         name='email'
         onChange={handleChange}
       />

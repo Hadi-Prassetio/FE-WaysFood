@@ -4,10 +4,25 @@ import Layout from "../components/layout";
 import Transaction from "../components/transaction";
 import { useRouter } from "next/router";
 import Income from "../fakeData/income";
+import { API } from "./api/api";
+import { useState, useEffect } from "react";
 import Rp from "rupiah-format";
 
 export default function Profile() {
   const router = useRouter();
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    const getProfile = async (e) => {
+      try {
+        const response = await API.get("/check-auth");
+        setProfile(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProfile();
+  }, [profile]);
 
   return (
     <Layout pageTitle='Profile'>
@@ -19,20 +34,27 @@ export default function Profile() {
             </h1>
             <div className='grid grid-cols-3 gap-4'>
               <div>
-                <img src='/user.png' alt='user' />
+                <img
+                  src={
+                    profile?.image == ""
+                      ? "/user.png"
+                      : "http://localhost:5000/uploads/" + profile.image
+                  }
+                  alt='user'
+                />
               </div>
               <div className='grid col-span-2'>
                 <div className='grid content-center'>
                   <h1 className='font-bold text-profile text-2xl'>Fullname</h1>
-                  <p>Hadi Prassetio</p>
+                  <p>{profile.fullname}</p>
                 </div>
                 <div className='grid content-center'>
                   <h1 className='font-bold text-profile text-2xl'>Email</h1>
-                  <p>hadiprassetio516@gmail.com</p>
+                  <p>{profile.email}</p>
                 </div>
                 <div className='grid content-end'>
                   <h1 className='font-bold text-profile text-2xl'>Phone</h1>
-                  <p>0895609135718</p>
+                  <p>{profile.phone}</p>
                 </div>
               </div>
               <Button
