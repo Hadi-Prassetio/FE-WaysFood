@@ -1,15 +1,28 @@
-import Layout from "../components/layout";
-import Input from "../components/input";
-import { useState } from "react";
-import { useMutation } from "react-query";
+import Layout from "../../components/layout";
+import Input from "../../components/input";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { API } from "./api/api";
+import { useMutation } from "react-query";
+import { API } from "../api/api";
 
-export default function AddProduct() {
-  const [product, setProduct] = useState({});
+export default function UpdateProduct() {
+  const [product, setProduct] = useState([]);
+  //   console.log("product state", product);
   const [previewName, setPreviewName] = useState("");
-
   const router = useRouter();
+  const id = router.query.product;
+
+  useEffect(() => {
+    const getProduct = async (e) => {
+      try {
+        const response = await API.get(`/product/${id}`);
+        setProduct(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProduct();
+  }, [setProduct]);
 
   const handleChange = (e) => {
     setProduct({
@@ -17,7 +30,6 @@ export default function AddProduct() {
       [e.target.name]:
         e.target.type === "file" ? e.target.files : e.target.value,
     });
-
     if (e.target.type === "file") {
       setPreviewName(e.target.files[0].name);
     }
@@ -26,27 +38,24 @@ export default function AddProduct() {
   const handleSubmit = useMutation(async (e) => {
     try {
       e.preventDefault();
-
       const formData = new FormData();
       formData.set("title", product.title);
       formData.set("price", product.price);
-      formData.set("image", product.image[0], product.image[0].name);
-
-      const response = await API.post("/product", formData);
-      // console.log(response);
-      alert("Product Added");
+      if (previewName) {
+        formData.set("image", product?.image[0], product?.image[0?.name]);
+      }
+      await API.patch(`/product/${product.id}`, formData);
       router.push("/list-product");
     } catch (error) {
-      console.log("errrror", error);
-      alert("Failed Add Product");
+      console.log(error);
     }
   });
 
   return (
-    <Layout pageTitle='Add Product'>
+    <Layout pageTitle='Update Product'>
       <div className='container max-w-6xl'>
         <h1 className='font-bold text-3xl md:mt-20 mt-5 mb-10 font-mainFont'>
-          Add Product
+          Update Product
         </h1>
         <form onSubmit={(e) => handleSubmit.mutate(e)}>
           <div className='grid md:grid-cols-12 md:gap-4'>
@@ -55,6 +64,7 @@ export default function AddProduct() {
                 placeholder='Title'
                 type='text'
                 name='title'
+                value={product.title}
                 onChange={handleChange}
               />
             </div>
@@ -69,7 +79,12 @@ export default function AddProduct() {
               <label
                 htmlFor='image'
                 className='w-full p-2 grid grid-cols-2 bg-auth bg-opacity-25 rounded-lg border-2 border-gray-400/70'>
-                <div>{previewName === "" ? "Attach Image" : previewName}</div>
+                <div>
+                  {previewName === ""
+                    ? "Attach Image"
+                    : previewName.slice(0, 15)}
+                  ...
+                </div>
                 <div className='grid justify-end'>
                   <img src='/pin.svg' width={15} />
                 </div>
@@ -80,6 +95,7 @@ export default function AddProduct() {
             placeholder='Price'
             type='number'
             name='price'
+            value={product.price}
             onChange={handleChange}
           />
           <div className='flex justify-end'>

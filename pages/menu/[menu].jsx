@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import Rp from "rupiah-format";
 import { useContext, useState, useEffect } from "react";
 import { CartContext } from "../../context/cartContext";
+import { useMutation } from "react-query";
 import { API } from "../api/api";
 
 export default function Menu() {
@@ -16,6 +17,7 @@ export default function Menu() {
   const [detail, setDetail] = useState([]);
 
   const [cart, setCart] = useState([]);
+  console.log(cart);
 
   useEffect(() => {
     const getDetail = async (e) => {
@@ -40,6 +42,25 @@ export default function Menu() {
     };
     getCart();
   }, [setCart]);
+
+  const addOrder = useMutation(async (id, price) => {
+    try {
+      // e.prefentDefault
+
+      await API.post("cart");
+
+      const order = {
+        product_id: id,
+        price: price,
+      };
+      const body = JSON.stringify(order);
+
+      await API.post("/order", body);
+    } catch (error) {
+      console.log(error);
+      alert("Failed Create Order");
+    }
+  });
 
   return (
     <Layout pageTitle='Menu'>
@@ -72,7 +93,7 @@ export default function Menu() {
                   </p>
                   <div>
                     <Button
-                      onClick={() => addCart(item)}
+                      onClick={() => addOrder.mutate(item.id, item.price)}
                       name='Order'
                       className='w-full bg-main text-txt rounded-xl md:py-2 py-1 my-2 hover:bg-base active:bg-gray-400'
                     />

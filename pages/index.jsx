@@ -81,7 +81,7 @@ export default function Home() {
           Restaurant Near You
         </h1>
         <div className='grid md:grid-cols-4 md:gap-3 grid-cols-2 gap-1 my-8'>
-          {Partner?.map((item) => (
+          {Partner?.slice(0, 4).map((item) => (
             <div
               key={item.id}
               onClick={

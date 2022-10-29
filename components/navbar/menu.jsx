@@ -109,6 +109,22 @@ export default function MenuUser() {
             <p className='ml-2'>Add Product</p>
           </div>
         </Link>
+        <Link href='/list-product'>
+          <div
+            className={
+              role === "customer"
+                ? "hidden"
+                : "flex items-center mb-1 mr-10 ml-4 cursor-pointer"
+            }>
+            <Image
+              src='/product.svg'
+              alt='profile'
+              width={33.37}
+              height={39.95}
+            />
+            <p className='ml-2'>List Product</p>
+          </div>
+        </Link>
         <hr />
         <div
           onClick={logOut}
