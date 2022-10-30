@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import Button from "../components/button";
 import Input from "../components/input";
 import Layout from "../components/layout";
@@ -7,21 +7,67 @@ import { CartContext } from "../context/cartContext";
 import Rp from "rupiah-format";
 import { useRouter } from "next/router";
 import MapModal from "../components/map";
+import { useMutation } from "react-query";
+import { API } from "../pages/api/api";
 
 export default function Cart() {
+  const [cart, setCart] = useState();
+  // console.log(cart);
   const [state, dispatch] = useContext(CartContext);
   const router = useRouter();
 
   const [map, setMap] = useState(false);
 
+  useEffect(() => {
+    const getCart = async (e) => {
+      try {
+        const response = await API.get("/cart-status");
+        // console.log("res", response);
+        // const unique = [
+        //   ...new Map(
+        //     response.data.data.order.map((item) => [item.product.id, item])
+        //   ).values(),
+        // ];
+        // console.log("unique", unique);
+        setCart(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getCart();
+  }, [setCart]);
+
+  const handleDelete = useMutation(async (id) => {
+    try {
+      await API.delete(`/order/${id}`);
+      const response = await API.get("/cart-status");
+      setCart(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  //Total Payment
+  const total = cart?.order?.reduce((a, b) => {
+    return a + b.sub_amount;
+  }, 0);
+
+  const totalQty = cart?.order?.reduce((a, b) => {
+    return a + b.qty;
+  }, 0);
+
+  const ongkir = 10000;
+
+  const totalPay = total + ongkir;
+
   return (
     <Layout pageTitle='Cart'>
       <div className='container max-w-6xl'>
-        {state.cart?.length != null ? (
+        {cart?.length != "" ? (
           <div>
             <div className='mt-10'>
               <h1 className='font-bold text-4xl mb-5 font-mainFont'>
-                Geprek Bensu
+                {cart?.order[0]?.product?.user?.fullname}
               </h1>
               <p>Delivery Location</p>
               <div className='grid md:grid-cols-5 gap-4'>
@@ -43,27 +89,36 @@ export default function Cart() {
               <div className='md:col-span-2'>
                 <div className='border-t-2 border-black mt-2 mb-2'></div>
                 <div className='overflow-y-scroll scrollbar-hide h-[20rem]'>
-                  {state.cart?.map((item) => (
+                  {cart?.order?.map((item) => (
                     <div key={item.id} className='grid grid-cols-2 my-1'>
                       <div className='flex my-auto'>
-                        <img src={item.menuImage} width={150} height={150} />
+                        <img
+                          src={`http://localhost:5000/uploads/${item.product.image}`}
+                          width={150}
+                          height={150}
+                        />
                         <div className='ml-5 my-auto'>
                           <p className='font-bold font-mainFont'>
-                            {item.menuName}
+                            {item.product.title}
                           </p>
                           <button className='md:mr-3 md:text-xl active:bg-main/50 w-4 rounded'>
                             -
                           </button>
-                          <p className='inline px-1 bg-main/50 rounded'>1</p>
+                          <p className='inline px-1 bg-main/50 rounded'>
+                            {item.qty}
+                          </p>
                           <button className='md:ml-3 md:text-xl active:bg-main/50 w-4 rounded'>
                             +
                           </button>
                         </div>
                       </div>
                       <div className='grid justify-items-end  my-auto'>
-                        <p className='text-red-600'>{Rp.convert(item.price)}</p>
-                        <div className=' align-bottom active:bg-main/50 mt-5 rounded-full'>
-                          <Image
+                        <p className='text-red-600'>
+                          {Rp.convert(item.sub_amount)}
+                        </p>
+                        <div className='cursor-pointer align-bottom active:bg-main/50 mt-5 rounded-full'>
+                          <img
+                            onClick={() => handleDelete.mutate(item.id)}
                             src='/delete.svg'
                             width={20}
                             height={20}
@@ -84,16 +139,18 @@ export default function Cart() {
                     <p>Qty</p>
                     <p>Ongkir</p>
                   </div>
-                  <div>
-                    <p className='text-red-600'>Rp. 5000</p>
-                    <p className='text-red-600'>1</p>
-                    <p className='text-red-600'>Rp. 5000</p>
+                  <div className='text-end'>
+                    <p className='text-red-600'>{Rp.convert(total)}</p>
+                    <p className='text-red-600'>{totalQty}</p>
+                    <p className='text-red-600'>{Rp.convert(ongkir)}</p>
                   </div>
                 </div>
                 <div className='border-t-2 border-black mt-2'></div>
                 <div className='flex justify-between'>
                   <p className='text-red-600 font-bold'>Total</p>
-                  <p className='text-red-600 font-bold'>Rp. 10.000</p>
+                  <p className='text-red-600 font-bold'>
+                    {Rp.convert(totalPay)}
+                  </p>
                 </div>
                 <Button
                   name='order'

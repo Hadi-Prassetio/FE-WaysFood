@@ -57,7 +57,7 @@ export default function Login() {
       const body = JSON.stringify(user);
 
       const response = await API.post("/login", body, config);
-      console.log("data", response.data);
+      // console.log("data", response.data);
 
       if (response?.status === 200) {
         setAuth({

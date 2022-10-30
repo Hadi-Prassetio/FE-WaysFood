@@ -23,7 +23,7 @@ export default function CheckAuth({ children }) {
       }
       let payload = response.data.data;
       payload.token = localStorage.token;
-      console.log(response);
+      // console.log(response);
       setAuth({
         type: "USER_SUCCESS",
         payload,

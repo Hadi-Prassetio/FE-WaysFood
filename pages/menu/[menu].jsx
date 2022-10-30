@@ -17,7 +17,8 @@ export default function Menu() {
   const [detail, setDetail] = useState([]);
 
   const [cart, setCart] = useState([]);
-  console.log(cart);
+  // console.log(cart);
+  // console.log(detail);
 
   useEffect(() => {
     const getDetail = async (e) => {
@@ -43,22 +44,31 @@ export default function Menu() {
     getCart();
   }, [setCart]);
 
-  const addOrder = useMutation(async (id, price) => {
+  const addOrder = useMutation(async ({ id, price }) => {
+    // return console.log(state);
     try {
-      // e.prefentDefault
+      const auth = await API.get("/check-auth", {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      });
 
-      await API.post("cart");
+      await API.post("cart", {
+        user_id: auth.data.data.id,
+        qty: 1,
+        sub_total: 0,
+        status: "pending",
+      });
 
       const order = {
         product_id: id,
-        price: price,
+        sub_amount: price,
       };
-      const body = JSON.stringify(order);
-
-      await API.post("/order", body);
+      await API.post("/order", order);
     } catch (error) {
       console.log(error);
       alert("Failed Create Order");
+      console.log(id, price);
     }
   });
 
@@ -72,8 +82,8 @@ export default function Menu() {
           </h1>
         </div>
         <div className='grid md:grid-cols-4 md:gap-4 grid-cols-2 gap-1 my-10'>
-          {detail?.products?.map((item, index) => (
-            <div key={index}>
+          {detail?.products?.map((item) => (
+            <div key={item.id}>
               <Card>
                 <div>
                   <img
@@ -93,7 +103,9 @@ export default function Menu() {
                   </p>
                   <div>
                     <Button
-                      onClick={() => addOrder.mutate(item.id, item.price)}
+                      onClick={() =>
+                        addOrder.mutate({ id: item.id, price: item.price })
+                      }
                       name='Order'
                       className='w-full bg-main text-txt rounded-xl md:py-2 py-1 my-2 hover:bg-base active:bg-gray-400'
                     />
