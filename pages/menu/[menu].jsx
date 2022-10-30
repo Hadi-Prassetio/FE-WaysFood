@@ -82,6 +82,7 @@ export default function Menu() {
           </h1>
         </div>
         <div className='grid md:grid-cols-4 md:gap-4 grid-cols-2 gap-1 my-10'>
+          {/* {addOrder.isLoading && <h1>Tunggu...</h1>} */}
           {detail?.products?.map((item) => (
             <div key={item.id}>
               <Card>

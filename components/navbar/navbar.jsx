@@ -9,9 +9,9 @@ import Button from "../button";
 import Modal from "../modal";
 import Menu from "./menu";
 
-export default function Navbar({ showLogin, setShowLogin }) {
+export default function Navbar({ showLogin, setShowLogin, counter }) {
   const [state, dispatch] = useContext(CartContext);
-  const counter = state.cart?.length;
+  // const counter = state.cart?.length;
 
   const [auth, setAuth] = useContext(UserContext);
   const isLogin = auth.isLogin;

@@ -6,6 +6,7 @@ export default function Layout({
   pageTitle,
   showLogin,
   setShowLogin,
+  counter,
 }) {
   return (
     <div className='max-w-screen-2xl'>
@@ -13,7 +14,11 @@ export default function Layout({
         <title>{pageTitle}</title>
         <link rel='icon' href='/icon.svg' />
       </Head>
-      <Navbar showLogin={showLogin} setShowLogin={setShowLogin} />
+      <Navbar
+        showLogin={showLogin}
+        setShowLogin={setShowLogin}
+        counter={counter}
+      />
       <div>{children}</div>
     </div>
   );

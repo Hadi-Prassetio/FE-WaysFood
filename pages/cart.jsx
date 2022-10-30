@@ -12,7 +12,7 @@ import { API } from "../pages/api/api";
 
 export default function Cart() {
   const [cart, setCart] = useState();
-  // console.log(cart);
+  console.log("carttt", cart);
   const [state, dispatch] = useContext(CartContext);
   const router = useRouter();
 
@@ -35,17 +35,15 @@ export default function Cart() {
       }
     };
     getCart();
-  }, [setCart]);
+  }, [cart]);
 
-  const handleDelete = useMutation(async (id) => {
+  const handleDelete = async (id) => {
     try {
       await API.delete(`/order/${id}`);
-      const response = await API.get("/cart-status");
-      setCart(response.data.data);
     } catch (error) {
       console.log(error);
     }
-  });
+  };
 
   //Total Payment
   const total = cart?.order?.reduce((a, b) => {
@@ -60,10 +58,64 @@ export default function Cart() {
 
   const totalPay = total + ongkir;
 
+  const handlePlus = useMutation(async ({ id, qty, price }) => {
+    const updateQty = qty + 1;
+    const updateTotal = price * updateQty;
+    const req = {
+      qty: updateQty,
+      sub_amount: updateTotal,
+    };
+    await API.patch(`/order/${id}`, req);
+  });
+
+  const handleMin = useMutation(async ({ id, qty, price, sub_amount }) => {
+    if (qty == 1) {
+      return;
+    }
+    const updateQty = qty - 1;
+    const updateTotal = sub_amount - price;
+    const req = {
+      qty: updateQty,
+      sub_amount: updateTotal,
+    };
+    await API.patch(`/order/${id}`, req);
+  });
+
+  const handleSubmit = useMutation(async (e) => {
+    try {
+      const req = {
+        qty: totalQty,
+        sub_total: totalPay,
+        status: "success",
+      };
+      await API.patch(`/cartID`, req);
+
+      router.push("/profile");
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
   return (
-    <Layout pageTitle='Cart'>
+    <Layout pageTitle='Cart' counter={totalQty}>
       <div className='container max-w-6xl'>
-        {cart?.length != "" ? (
+        {cart == undefined ? (
+          <div className='flex my-20 justify-center'>
+            <img
+              src='/empty.png'
+              width={500}
+              onClick={() => router.push("/")}
+            />
+          </div>
+        ) : cart?.order == "" ? (
+          <div className='flex my-20 justify-center'>
+            <img
+              src='/empty.png'
+              width={500}
+              onClick={() => router.push("/")}
+            />
+          </div>
+        ) : (
           <div>
             <div className='mt-10'>
               <h1 className='font-bold text-4xl mb-5 font-mainFont'>
@@ -101,13 +153,30 @@ export default function Cart() {
                           <p className='font-bold font-mainFont'>
                             {item.product.title}
                           </p>
-                          <button className='md:mr-3 md:text-xl active:bg-main/50 w-4 rounded'>
+                          <button
+                            onClick={() =>
+                              handleMin.mutate({
+                                id: item.id,
+                                qty: item.qty,
+                                price: item.product.price,
+                                sub_amount: item.sub_amount,
+                              })
+                            }
+                            className='md:mr-3 md:text-xl active:bg-main/50 w-4 rounded'>
                             -
                           </button>
                           <p className='inline px-1 bg-main/50 rounded'>
                             {item.qty}
                           </p>
-                          <button className='md:ml-3 md:text-xl active:bg-main/50 w-4 rounded'>
+                          <button
+                            onClick={() =>
+                              handlePlus.mutate({
+                                id: item.id,
+                                qty: item.qty,
+                                price: item.product.price,
+                              })
+                            }
+                            className='md:ml-3 md:text-xl active:bg-main/50 w-4 rounded'>
                             +
                           </button>
                         </div>
@@ -118,7 +187,7 @@ export default function Cart() {
                         </p>
                         <div className='cursor-pointer align-bottom active:bg-main/50 mt-5 rounded-full'>
                           <img
-                            onClick={() => handleDelete.mutate(item.id)}
+                            onClick={() => handleDelete(item.id)}
                             src='/delete.svg'
                             width={20}
                             height={20}
@@ -153,6 +222,7 @@ export default function Cart() {
                   </p>
                 </div>
                 <Button
+                  onClick={() => handleSubmit.mutate()}
                   name='order'
                   className='w-full text-white bg-btn py-2 rounded-lg md:my-40 my-5 hover:bg-main/80 active:bg-main/70'
                 />
@@ -170,14 +240,6 @@ export default function Cart() {
                 marginwidth='0'
                 title='myFrame'></iframe>
             </MapModal>
-          </div>
-        ) : (
-          <div className='flex my-20 justify-center'>
-            <img
-              src='/empty.png'
-              width={500}
-              onClick={() => router.push("/")}
-            />
           </div>
         )}
       </div>

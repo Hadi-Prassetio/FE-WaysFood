@@ -4,7 +4,6 @@ import Rp from "rupiah-format";
 import { API } from "./api/api";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/userContext";
-import { useMutation } from "react-query";
 
 export default function ListProduct() {
   const [auth, setAuth] = useContext(UserContext);
@@ -23,17 +22,17 @@ export default function ListProduct() {
     getProduct();
   }, [setProduct]);
 
-  const handleDelete = useMutation(async (id) => {
+  const handleDelete = async (id) => {
     try {
       await API.delete(`/product/${id}`);
-      alert("Delete Succes");
+      alert("Delete Success");
       const response = await API.get(`/user/${auth?.user?.id}`);
       setProduct(response.data.data.products);
     } catch (error) {
       console.log(error);
       alert("Failed to Delete Product");
     }
-  });
+  };
 
   return (
     <Layout pageTitle='List Product'>
@@ -98,7 +97,7 @@ export default function ListProduct() {
                           Update
                         </button>
                         <button
-                          onClick={() => handleDelete.mutate(item.id)}
+                          onClick={() => handleDelete(item.id)}
                           className='bg-red-500 rounded-sm mr-2 text-white px-3 hover:bg-red-400 active:bg-red-600'>
                           Delete
                         </button>
