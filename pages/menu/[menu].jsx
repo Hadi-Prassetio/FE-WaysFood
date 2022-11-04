@@ -1,24 +1,21 @@
 import Card from "../../components/card";
 import Layout from "../../components/layout";
 import Button from "../../components/button";
-import Partners from "../../fakeData/restaurant";
 import { useRouter } from "next/router";
 import Rp from "rupiah-format";
 import { useContext, useState, useEffect } from "react";
 import { CartContext } from "../../context/cartContext";
 import { useMutation } from "react-query";
 import { API } from "../api/api";
+import { Success } from "../../helper/toast";
 
 export default function Menu() {
-  const [state, dispatch] = useContext(CartContext);
   const router = useRouter();
   const id = router.query.menu;
 
   const [detail, setDetail] = useState([]);
 
   const [cart, setCart] = useState([]);
-  // console.log(cart);
-  // console.log(detail);
 
   useEffect(() => {
     const getDetail = async (e) => {
@@ -30,7 +27,7 @@ export default function Menu() {
       }
     };
     getDetail();
-  }, [setDetail]);
+  }, []);
 
   useEffect(() => {
     const getCart = async (e) => {
@@ -45,31 +42,25 @@ export default function Menu() {
   }, [setCart]);
 
   const addOrder = useMutation(async ({ id, price }) => {
-    // return console.log(state);
-    try {
-      const auth = await API.get("/check-auth", {
-        headers: {
-          Authorization: `Bearer ${localStorage.token}`,
-        },
-      });
+    const auth = await API.get("/check-auth", {
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    });
 
-      await API.post("cart", {
-        user_id: auth.data.data.id,
-        qty: 1,
-        sub_total: 0,
-        status: "pending",
-      });
+    await API.post("cart", {
+      user_id: auth.data.data.id,
+      qty: 1,
+      sub_total: 0,
+      status: "pending",
+    });
 
-      const order = {
-        product_id: id,
-        sub_amount: price,
-      };
-      await API.post("/order", order);
-    } catch (error) {
-      console.log(error);
-      alert("Failed Create Order");
-      console.log(id, price);
-    }
+    const order = {
+      product_id: id,
+      sub_amount: price,
+    };
+    await API.post("/order", order);
+    Success({ message: "Order Added" });
   });
 
   return (
@@ -89,7 +80,7 @@ export default function Menu() {
                 <div>
                   <img
                     className='rounded-lg w-full p-3'
-                    src={`http://localhost:5000/uploads/${item.image}`}
+                    src={item.image}
                     alt='menu'
                   />
                 </div>

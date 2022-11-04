@@ -5,6 +5,7 @@ import MapModal from "../components/map";
 import { API } from "./api/api";
 import { useMutation } from "react-query";
 import { useRouter } from "next/router";
+import { Info, Warning } from "../helper/toast";
 
 export default function EditProfile() {
   const [data, setData] = useState([]);
@@ -46,7 +47,6 @@ export default function EditProfile() {
           image: response.data.data.image,
           location: response.data.data.location,
         });
-        // console.log(response);
       } catch (error) {
         console.log("errrorr", error);
       }
@@ -63,17 +63,16 @@ export default function EditProfile() {
       formData.set("phone", profile.phone);
       // formData.set("image", profile.image[0], profile.image[0].name);
       formData.set("location", profile.location);
-      console.log("imageeee", profile.image);
       if (previewName) {
         formData.set("image", profile?.image[0], profile?.image[0]?.name);
       }
 
-      const response = await API.patch("/user", formData);
-      // console.log(response);
+      await API.patch("/user", formData);
+      Info({ message: "Profile Updated" });
       router.push("/profile");
     } catch (error) {
       console.log(error);
-      alert("Failed Update Profile");
+      Warning({ message: "Failed To Update Profile" });
     }
   });
 

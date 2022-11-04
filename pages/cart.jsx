@@ -12,8 +12,8 @@ import { API } from "../pages/api/api";
 
 export default function Cart() {
   const [cart, setCart] = useState();
-  console.log("carttt", cart);
   const [state, dispatch] = useContext(CartContext);
+
   const router = useRouter();
 
   const [map, setMap] = useState(false);
@@ -35,11 +35,13 @@ export default function Cart() {
       }
     };
     getCart();
-  }, [cart]);
+  }, []);
 
   const handleDelete = async (id) => {
     try {
       await API.delete(`/order/${id}`);
+      const response = await API.get("/cart-status");
+      setCart(response.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -66,6 +68,8 @@ export default function Cart() {
       sub_amount: updateTotal,
     };
     await API.patch(`/order/${id}`, req);
+    const response = await API.get("/cart-status");
+    setCart(response.data.data);
   });
 
   const handleMin = useMutation(async ({ id, qty, price, sub_amount }) => {
@@ -79,10 +83,19 @@ export default function Cart() {
       sub_amount: updateTotal,
     };
     await API.patch(`/order/${id}`, req);
+    const response = await API.get("/cart-status");
+    setCart(response.data.data);
   });
 
   const handleSubmit = useMutation(async (e) => {
     try {
+      const data = {
+        seller_id: cart.order[0].product.user.id,
+        total: totalPay,
+      };
+
+      const response = await API.post("/transaction", data);
+
       const req = {
         qty: totalQty,
         sub_total: totalPay,
@@ -90,11 +103,51 @@ export default function Cart() {
       };
       await API.patch(`/cartID`, req);
 
-      router.push("/profile");
+      const token = response.data.data.token;
+
+      window.snap.pay(token, {
+        onSuccess: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          router.push("/profile");
+        },
+        onPending: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          router.push("/profile");
+        },
+        onError: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+        },
+        onClose: function () {
+          /* You may add your own implementation here */
+          alert("you closed the popup without finishing the payment");
+        },
+      });
     } catch (error) {
       console.log(error);
     }
   });
+
+  // Create config Snap payment page with useEffect here ...
+  useEffect(() => {
+    //change this to the script source you want to load, for example this is snap.js sandbox env
+    const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+    //change this according to your client-key
+    const myMidtransClientKey = "SB-Mid-client-DAAlgk1G_QRRgxqW";
+
+    let scriptTag = document.createElement("script");
+    scriptTag.src = midtransScriptUrl;
+    // optional if you want to set script attribute
+    // for example snap.js have data-client-key attribute
+    scriptTag.setAttribute("data-client-key", myMidtransClientKey);
+
+    document.body.appendChild(scriptTag);
+    return () => {
+      document.body.removeChild(scriptTag);
+    };
+  }, []);
 
   return (
     <Layout pageTitle='Cart' counter={totalQty}>
@@ -145,7 +198,7 @@ export default function Cart() {
                     <div key={item.id} className='grid grid-cols-2 my-1'>
                       <div className='flex my-auto'>
                         <img
-                          src={`http://localhost:5000/uploads/${item.product.image}`}
+                          src={item.product.image}
                           width={150}
                           height={150}
                         />

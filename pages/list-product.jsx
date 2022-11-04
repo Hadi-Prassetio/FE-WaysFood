@@ -4,6 +4,7 @@ import Rp from "rupiah-format";
 import { API } from "./api/api";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/userContext";
+import { Error, Success } from "../helper/toast";
 
 export default function ListProduct() {
   const [auth, setAuth] = useContext(UserContext);
@@ -25,12 +26,11 @@ export default function ListProduct() {
   const handleDelete = async (id) => {
     try {
       await API.delete(`/product/${id}`);
-      alert("Delete Success");
+      Success({ message: "Product Deleted" });
       const response = await API.get(`/user/${auth?.user?.id}`);
       setProduct(response.data.data.products);
     } catch (error) {
       console.log(error);
-      alert("Failed to Delete Product");
     }
   };
 
@@ -79,11 +79,7 @@ export default function ListProduct() {
                     <td
                       scope='row'
                       className='py-4 px-6 font-medium whitespace-nowrap'>
-                      <img
-                        src={`http://localhost:5000/uploads/${item.image}`}
-                        width={150}
-                        alt='product'
-                      />
+                      <img src={item.image} width={150} alt='product' />
                     </td>
                     <td className='py-4 px-6'>{item.title}</td>
                     <td className='py-4 px-6'>{Rp.convert(item.price)}</td>

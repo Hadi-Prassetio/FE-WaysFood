@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useMutation } from "react-query";
 import { useRouter } from "next/router";
 import { API } from "./api/api";
+import { Success, Warning } from "../helper/toast";
 
 export default function AddProduct() {
   const [product, setProduct] = useState({});
@@ -32,13 +33,11 @@ export default function AddProduct() {
       formData.set("price", product.price);
       formData.set("image", product.image[0], product.image[0].name);
 
-      const response = await API.post("/product", formData);
-      // console.log(response);
-      alert("Product Added");
+      await API.post("/product", formData);
+      Success({ message: "Product Added" });
       router.push("/list-product");
     } catch (error) {
-      console.log("errrror", error);
-      alert("Failed Add Product");
+      Warning({ message: "Failed Add Product" });
     }
   });
 
@@ -69,7 +68,12 @@ export default function AddProduct() {
               <label
                 htmlFor='image'
                 className='w-full p-2 grid grid-cols-2 bg-auth bg-opacity-25 rounded-lg border-2 border-gray-400/70'>
-                <div>{previewName === "" ? "Attach Image" : previewName}</div>
+                <div>
+                  {previewName === ""
+                    ? "Attach Image"
+                    : previewName.slice(0, 10)}
+                  ...
+                </div>
                 <div className='grid justify-end'>
                   <img src='/pin.svg' width={15} />
                 </div>

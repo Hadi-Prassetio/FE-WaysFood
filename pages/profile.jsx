@@ -3,7 +3,7 @@ import Button from "../components/button";
 import Layout from "../components/layout";
 import Transaction from "../components/transaction";
 import { useRouter } from "next/router";
-import Income from "../fakeData/income";
+import dateFormat from "dateformat";
 import { API } from "./api/api";
 import { useState, useEffect } from "react";
 import Rp from "rupiah-format";
@@ -11,6 +11,8 @@ import Rp from "rupiah-format";
 export default function Profile() {
   const router = useRouter();
   const [profile, setProfile] = useState({});
+  const [transaction, setTransaction] = useState();
+  console.log(transaction);
 
   useEffect(() => {
     const getProfile = async (e) => {
@@ -22,7 +24,15 @@ export default function Profile() {
       }
     };
     getProfile();
-  }, [profile]);
+  }, []);
+
+  useEffect(() => {
+    const getTransaction = async (e) => {
+      const response = await API.get("transactions");
+      setTransaction(response.data.data);
+    };
+    getTransaction();
+  }, []);
 
   return (
     <Layout pageTitle='Profile'>
@@ -35,11 +45,7 @@ export default function Profile() {
             <div className='grid grid-cols-3 gap-4'>
               <div>
                 <img
-                  src={
-                    profile?.image == ""
-                      ? "/user.png"
-                      : "http://localhost:5000/uploads/" + profile.image
-                  }
+                  src={profile?.image == "" ? "/user.png" : profile.image}
                   alt='user'
                 />
               </div>
@@ -69,33 +75,44 @@ export default function Profile() {
               My Transaction
             </h1>
             <div className='overflow-y-auto scrollbar-hide h-[17rem]'>
-              {Income.map((item, index) => (
-                <div key={index} className='my-1'>
-                  <Transaction>
-                    <div className='grid grid-cols-2'>
-                      <div>
-                        <h1 className='font-bold text-md font-mainFont text-lg'>
-                          {item.products.restaurant}
-                        </h1>
+              {transaction == undefined ? (
+                <img src='/empty.png' alt='notransaction' />
+              ) : (
+                <>
+                  {transaction?.map((item) => (
+                    <div key={item.id} className='my-1'>
+                      <Transaction>
+                        <div className='grid grid-cols-2'>
+                          <div>
+                            <h1 className='font-bold text-md font-mainFont text-lg'>
+                              {item?.cart?.order[0]?.product?.user?.fullname}
+                            </h1>
 
-                        <h1 className='text-sm mb-5'>
-                          <b>{item.day}, </b>
-                          {item.date}{" "}
-                        </h1>
-                        <h1 className='font-bold text-md text-profile'>
-                          Total : {Rp.convert(item.products.price)}
-                        </h1>
-                      </div>
-                      <div className='grid justify-items-end'>
-                        <img src='/navicon.svg' alt='' />
-                        <h1 className='w-3/4 rounded-md bg-base text-green-600 text-center my-auto py-1'>
-                          Finished
-                        </h1>
-                      </div>
+                            <h1 className='text-sm mb-5'>
+                              <b>{dateFormat(item.created_at, "dddd,   ")}</b>
+                              {dateFormat(item.created_at, "d mmmm yyyy,   ")}
+                            </h1>
+                            <h1 className='font-bold text-md text-profile'>
+                              Total : {Rp.convert(item.total)}
+                            </h1>
+                          </div>
+                          <div className='grid justify-items-end'>
+                            <img src='/navicon.svg' alt='nav' />
+                            <h1
+                              className={
+                                item.status == "success"
+                                  ? "w-3/4 rounded-md bg-green-200 text-green-600 text-center my-auto py-1"
+                                  : "w-3/4 rounded-md bg-yellow-200 text-yellow-800 text-center my-auto py-1"
+                              }>
+                              {item.status}
+                            </h1>
+                          </div>
+                        </div>
+                      </Transaction>
                     </div>
-                  </Transaction>
-                </div>
-              ))}
+                  ))}
+                </>
+              )}
             </div>
           </div>
         </div>

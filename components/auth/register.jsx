@@ -3,6 +3,7 @@ import Button from "../button";
 import Input from "../input";
 import { useMutation } from "react-query";
 import { API } from "../../pages/api/api";
+import { Success, Error } from "../../helper/toast";
 
 export default function Register() {
   const [form, setForm] = useState({});
@@ -12,25 +13,15 @@ export default function Register() {
       [e.target.name]: e.target.value,
     });
   };
-  // console.log(form);
 
   const handleSubmit = useMutation(async (e) => {
     try {
       e.preventDefault();
-      const config = {
-        Headers: {
-          "Content-type": "aplication/json",
-        },
-      };
-      const body = JSON.stringify(form);
 
-      const response = await API.post("/register", body, config);
-      // console.log(response);
-      // console.log(body);
-      alert("Success Register");
+      const response = await API.post("/register", form);
+      Success({ message: "Success Register" });
     } catch (error) {
-      console.log(error);
-      alert("Register Failed");
+      Error({ message: "Failed Register" });
     }
   });
 

@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 import { API } from "../api/api";
+import { Info } from "../../helper/toast";
 
 export default function UpdateProduct() {
   const [product, setProduct] = useState([]);
-  //   console.log("product state", product);
   const [previewName, setPreviewName] = useState("");
   const router = useRouter();
   const id = router.query.product;
@@ -45,6 +45,7 @@ export default function UpdateProduct() {
         formData.set("image", product?.image[0], product?.image[0?.name]);
       }
       await API.patch(`/product/${product.id}`, formData);
+      Info({ message: "Product Edited" });
       router.push("/list-product");
     } catch (error) {
       console.log(error);

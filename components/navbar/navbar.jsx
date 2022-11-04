@@ -1,23 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useState, useContext, useEffect } from "react";
-import { CartContext } from "../../context/cartContext";
 import { UserContext } from "../../context/userContext";
 import Login from "../auth/login";
 import Register from "../auth/register";
 import Button from "../button";
 import Modal from "../modal";
 import Menu from "./menu";
+import { API } from "../../pages/api/api";
 
 export default function Navbar({ showLogin, setShowLogin, counter }) {
-  const [state, dispatch] = useContext(CartContext);
-  // const counter = state.cart?.length;
-
   const [auth, setAuth] = useContext(UserContext);
   const isLogin = auth.isLogin;
-  // console.log(isLogin);
 
-  // const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
   const switchToRegister = () => {
@@ -29,9 +24,26 @@ export default function Navbar({ showLogin, setShowLogin, counter }) {
     setShowLogin(true);
   };
 
+  // const [count, setCount] = useState();
+
+  // useEffect(() => {
+  //   if (isLogin) {
+  //     try {
+  //       const getCount = async (e) => {
+  //         const response = await API.get("/cart-status");
+  //         setCount(response.data.data);
+  //       };
+  //       getCount();
+  //     } catch (error) {}
+  //   }
+  // }, []);
+
+  // const counters = count?.order?.reduce((a, b) => {
+  //   return a + b.qty;
+  // }, 0);
+
   return (
     <Fragment>
-      {/* {isLogin && setShowLogin(false)} */}
       <nav className=' bg-main sticky top-0'>
         <div className='flex justify-between items-center'>
           <div className='md:ml-10'>
@@ -63,6 +75,20 @@ export default function Navbar({ showLogin, setShowLogin, counter }) {
                   }>
                   {counter}
                 </div>
+                {/* <div
+                  className={
+                    auth.user.role === "partner"
+                      ? "hidden"
+                      : counter === null
+                      ? "hidden"
+                      : counters === 0
+                      ? "hidden"
+                      : counters === undefined
+                      ? "hidden"
+                      : "circle z-30"
+                  }>
+                  {counters}
+                </div> */}
 
                 <Menu />
               </div>

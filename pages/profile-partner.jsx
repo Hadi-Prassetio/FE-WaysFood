@@ -1,14 +1,15 @@
-import Layout from "../components/layout";
-import Button from "../components/button";
+import dateFormat from "dateformat";
 import { useRouter } from "next/router";
-import Transaction from "../components/transaction";
-import Income from "../fakeData/income";
+import { useEffect, useState } from "react";
 import Rp from "rupiah-format";
+import Button from "../components/button";
+import Layout from "../components/layout";
+import Transaction from "../components/transaction";
 import { API } from "./api/api";
-import { useState, useEffect } from "react";
 
 export default function ProfilePartner() {
   const [profile, setProfile] = useState({});
+  const [income, setIncome] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -23,6 +24,14 @@ export default function ProfilePartner() {
     getProfile();
   }, [setProfile]);
 
+  useEffect(() => {
+    const getIncome = async (e) => {
+      const response = await API.get("/incomes");
+      setIncome(response.data.data);
+    };
+    getIncome();
+  }, []);
+
   return (
     <Layout pageTitle='Profile Partner'>
       <div className='container max-w-6xl '>
@@ -34,11 +43,7 @@ export default function ProfilePartner() {
             <div className='grid grid-cols-3 gap-4'>
               <div>
                 <img
-                  src={
-                    profile?.image == ""
-                      ? "/user.png"
-                      : "http://localhost:5000/uploads/" + profile.image
-                  }
+                  src={profile?.image == "" ? "/user.png" : profile.image}
                   alt='user'
                 />
               </div>
@@ -67,35 +72,44 @@ export default function ProfilePartner() {
             <h1 className='font-bold md:text-4xl mb-10 font-mainFont'>
               History Order
             </h1>
-            <div className='overflow-y-auto scrollbar-hide h-[17rem]'>
-              {Income.map((item, index) => (
-                <div key={index} className='my-1'>
-                  <Transaction>
-                    <div className='grid grid-cols-2'>
-                      <div>
-                        <h1 className='font-bold text-md font-mainFont text-lg'>
-                          {item.name}
-                        </h1>
+            {income == "" ? (
+              <img src='/empty.png' alt='no transaction' width={300} />
+            ) : (
+              <div className='overflow-y-auto scrollbar-hide h-[17rem]'>
+                {income?.map((item) => (
+                  <div key={item.id} className='my-1'>
+                    <Transaction>
+                      <div className='grid grid-cols-2'>
+                        <div>
+                          <h1 className='font-bold text-md font-mainFont text-lg'>
+                            {item.buyer.fullname}
+                          </h1>
 
-                        <h1 className='text-sm mb-5'>
-                          <b>{item.day}, </b>
-                          {item.date}
-                        </h1>
-                        <h1 className='font-bold text-md text-profile'>
-                          Total : {Rp.convert(item.products.price)}
-                        </h1>
+                          <h1 className='text-sm mb-5'>
+                            <b>{dateFormat(item.created_at, "dddd,   ")}</b>
+                            {dateFormat(item.created_at, "d mmmm yyyy,   ")}
+                          </h1>
+                          <h1 className='font-bold text-md text-profile'>
+                            Total : {Rp.convert(item.total)}
+                          </h1>
+                        </div>
+                        <div className='grid justify-items-end'>
+                          <img src='/navicon.svg' alt='' />
+                          <h1
+                            className={
+                              item.status == "success"
+                                ? "w-3/4 rounded-md bg-green-200 text-green-600 text-center my-auto py-1"
+                                : "w-3/4 rounded-md bg-yellow-200 text-yellow-800 text-center my-auto py-1"
+                            }>
+                            {item.status}
+                          </h1>
+                        </div>
                       </div>
-                      <div className='grid justify-items-end'>
-                        <img src='/navicon.svg' alt='' />
-                        <h1 className='w-3/4 rounded-md bg-base text-green-600 text-center my-auto py-1'>
-                          Finished
-                        </h1>
-                      </div>
-                    </div>
-                  </Transaction>
-                </div>
-              ))}
-            </div>
+                    </Transaction>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

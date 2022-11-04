@@ -5,6 +5,7 @@ import { UserContext } from "../../context/userContext";
 import { API } from "../../pages/api/api";
 import Button from "../button";
 import Input from "../input";
+import { Error, Success } from "../../helper/toast";
 
 export default function Login() {
   const [auth, setAuth] = useContext(UserContext);
@@ -19,32 +20,6 @@ export default function Login() {
     });
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   const email = user.email;
-  //   const password = user.password;
-
-  //   let status;
-  //   if (email === "admin@mail.com") {
-  //     status = "partner";
-  //     router.push("/income-transaction");
-  //   } else {
-  //     status = "user";
-  //     router.push("/");
-  //   }
-
-  //   const data = {
-  //     email,
-  //     password,
-  //     status,
-  //   };
-
-  //   setAuth({
-  //     type: "LOGIN",
-  //     payload: data,
-  //   });
-  // };
   const handleSubmit = useMutation(async (e) => {
     try {
       e.preventDefault();
@@ -57,8 +32,7 @@ export default function Login() {
       const body = JSON.stringify(user);
 
       const response = await API.post("/login", body, config);
-      // console.log("data", response.data);
-
+      Success({ message: `Login Success!` });
       if (response?.status === 200) {
         setAuth({
           type: "LOGIN",
@@ -71,8 +45,7 @@ export default function Login() {
         }
       }
     } catch (error) {
-      console.log("error", error);
-      alert("Login Failed");
+      Error({ message: `Login Failed` });
     }
   });
 

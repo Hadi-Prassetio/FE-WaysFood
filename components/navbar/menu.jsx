@@ -33,7 +33,6 @@ export default function MenuUser() {
   };
 
   const role = auth.user.role;
-  // console.log(auth);
 
   return (
     <Fragment>
@@ -47,11 +46,7 @@ export default function MenuUser() {
           <button onClick={() => setShowDropdown(true)}>
             <div className=''>
               <img
-                src={
-                  profile?.image == ""
-                    ? "/user.png"
-                    : "http://localhost:5000/uploads/" + profile?.image
-                }
+                src={profile?.image == "" ? "/user.png" : profile?.image}
                 width={50}
                 alt='user'
                 className='rounded-full'
